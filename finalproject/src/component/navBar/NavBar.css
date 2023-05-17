@@ -1,0 +1,52 @@
+.NavBar{
+    width: 100%;
+    height: 75px;
+    background-color: var(--yellow) ;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.left-side{
+    display: flex;
+    flex-direction: row;
+    gap:70px;
+    margin-left: 30px;
+}
+.Logo{
+    height: 75px;
+}
+.Logo img{
+    height: 100%;
+}
+.links{
+    display: flex;
+    align-items: center;
+    width: 50%;
+    gap: 30px;
+    
+}
+
+.each-link{
+    text-decoration: none;
+    color: var(--red);
+    font-size: 22px;
+        transition: 0.5s all;
+}
+.button {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+button {
+    font-size: 19px;
+    padding: 0.4em 2.2em;
+    border: transparent;
+    background: transparent;
+    border: 2px solid var(--red);
+    color: var(--red);
+    border-radius: 4px;
+   }
+   button:active {
+    scale: 0.98 ;
+   }

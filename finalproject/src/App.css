@@ -1,0 +1,9 @@
+:root {
+    --yellow: #FCDC5B;
+    --red: #FF673D;
+    --white : #FFFFFF;
+    --balck : #2C3424
+}
+.layout{
+    font-family: sans;
+}
