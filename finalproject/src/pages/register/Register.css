@@ -1,0 +1,108 @@
+.feed-form {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+  }
+  .section_form h2 {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    margin-top: 0;
+    font-size: 40px;
+  }
+  .feed-form input {
+    height: 54px;
+    border-radius: 5px;
+    background: white;
+    margin-bottom: 15px;
+    border: none;
+    padding: 0 20px;
+    font-weight: 300;
+    font-size: 14px;
+    color: #4B4B4B;
+  }
+  
+  .button_submit:hover, .feed-form input:hover {
+    transform: scale(1.009);
+    box-shadow: 0px 0px 3px 0px #212529;
+  }
+  
+  .button_submit {
+    width: 100%;
+    height: 54px;
+    font-size: 14px;
+    color: white;
+    background: var(--red);
+    border-radius: 5px;
+    border: none;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+.section_form{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 500px;
+    background-color:#f1f0f0;
+    padding: 50px;
+    border-radius: 10px;
+    gap: 5px;
+
+}
+#consultation-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 80%;
+}
+.register-now {
+    color: var(--red);
+    font-weight: 700;
+    border: transparent;
+    padding: 0;
+}
+.section_form p {
+    margin-top: 30px;
+}
+.register{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.register-as button {
+    border: transparent;
+    border-radius: 0;
+}
+.register-as {
+    margin-bottom: 10px;
+}
+
+.input-beSide{
+    display: flex;
+    justify-content: space-between;
+}
+
+form input[type = file] {
+    margin-top: 10px;
+    height: 23px;
+}
+.back-to-home{
+    position: absolute;
+    top: 40px;
+    left: 40px;
+}
+.back-to-home button{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: transparent;
+}
+
+.feed-form input[type=file]{
+    background-color: transparent;
+    height: 22px;
+    width: 200px;
+}

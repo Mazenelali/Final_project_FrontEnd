@@ -1,0 +1,86 @@
+.tutor{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.tutor-Constainer{
+    width: 60%;
+    margin-top: 30px;
+    
+}
+.shearch-tutor{
+    display: flex;
+    justify-content: flex-end;
+    gap: 30px;
+    margin-top: 20px;
+}
+.shearch-tutor input {
+    width: 30rem;
+    border-radius: 0;
+    border: 0;
+    border-bottom: 1px solid black;
+}
+.shearch-tutor button {
+    background-color: var(--red);
+    color: white;
+}
+.tutors-card-container{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding-bottom: 100px;
+
+}
+
+
+/* For tutors card */
+.tutors_card{
+    width: 100%;
+    height: 230px;
+    display: flex;
+    border-radius: 12px;
+    box-shadow: 3px 6px 9px 0px rgba(0,0,0,0.29);
+-webkit-box-shadow: 3px 6px 9px 0px rgba(0,0,0,0.29);
+-moz-box-shadow: 3px 6px 9px 0px rgba(0,0,0,0.29);
+}
+.tutors_card p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.tutors-image{
+    width: 270px;
+    height: 230px;
+}
+.tutors-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-left-radius:12px;
+    border-bottom-left-radius:12px;
+}
+.tutors-info{
+    width: 67%;
+    padding: 20px;
+}
+.tutors-info span{
+    color: var(--black);
+    font-weight: bold;
+}
+.tutors-info h3 {
+    color: var(--red);
+    margin-top: 5px;
+}
+.tutors-info .class-title{
+    font-size: 22px;
+    font-weight: 700;
+    
+}
+.tutors-info-container{
+    margin-left: 5px;
+}
+.phone-number{
+    opacity: 0.5;
+    margin-left: 4px;
+}

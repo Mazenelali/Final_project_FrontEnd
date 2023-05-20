@@ -6,6 +6,8 @@ import Layout from './Layout';
 import Course from './pages/course/Course';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
+import Profile from './pages/profile/Profile';
+
 
 
 function App() {
@@ -18,6 +20,7 @@ function App() {
         <Route path='/homepage' element = {<HomePage/>}/>
         <Route path='/tutors' element = {<Tutors/>}/>
         <Route path='/course' element = {<Course/>}/>
+        <Route path='/profile' element = {<Profile/>}/>
         </Route>
       </Routes>
     
