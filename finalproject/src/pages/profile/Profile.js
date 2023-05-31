@@ -130,7 +130,7 @@ function Profile() {
 
         axios
             .patch(
-                `${URL}/${localStorage.getItem("_id")}`,
+                `${URL}/User/${localStorage.getItem("_id")}`,
                 formData
             )
             .then((response) => {
@@ -164,7 +164,7 @@ function Profile() {
             [e.target.name]: value,
         });
     };
-
+    
 
     const submitPost = () => {
         const formdata = new FormData();
