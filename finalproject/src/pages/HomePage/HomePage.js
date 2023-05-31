@@ -18,7 +18,7 @@ function HomePage() {
 
     const getDataTutors = ()=>{
         axios.get(`${URL}/User/`).then((response)=>{
-            setDataTutors(response.data).slice(0 , 9)
+            setDataTutors(response.data)
         }).catch((err)=>{
             console.log(err)
         })
@@ -26,7 +26,7 @@ function HomePage() {
 
     const getDataCourse = ()=>{
         axios.get(`${URL}/Post/`).then((response)=>{
-            setDataCourse(response.data).slice(0 , 9)
+            setDataCourse(response.data)
         }).catch((err)=>{
             console.log(err)
         })
@@ -66,7 +66,7 @@ function HomePage() {
                 Leatest Tutors
             </h2>
             <div className="card-carousel">
-            {!dataTutors? "wait" : dataTutors.map((ele)=>{return <div className="each-card">
+            {!dataTutors? "wait" : dataTutors.slice(0 , 9).map((ele)=>{return <div className="each-card">
                         <div className="cards">
                             <div className="imageofcarouser">
                                 <img src={`${URL}/${ele.image}`} alt=""/>
@@ -87,7 +87,7 @@ function HomePage() {
                 Leatest Cousers
             </h2>
             <div className="card-carousel">
-            {!dataCourse? "wait" : dataCourse.map((ele)=>{return <div className="each-card">
+            {!dataCourse? "wait" : dataCourse.slice(0 , 9).map((ele)=>{return <div className="each-card">
                         <div className="cards">
                             <div className="imageofcarouser">
                                 <img src={`${URL}/${ele.image}`} alt=""/>
@@ -110,7 +110,7 @@ function HomePage() {
                 <img src={tutors} alt="tutors" />
                 </div>
                 <div className="Under-image">
-                    <h4>+600 tutors</h4>
+                    <h4>+{dataTutors.length} tutors</h4>
                 </div>
             </div>
             <div className="section-under-hero" onClick={()=>{navigate('/course')}}>
@@ -118,7 +118,7 @@ function HomePage() {
                 <img src={library} alt="library" />
                 </div>
                 <div className="Under-image">
-                <h4>+400 course</h4> 
+                <h4>+{dataCourse.length} course</h4> 
                 </div>
             </div>
             </div>

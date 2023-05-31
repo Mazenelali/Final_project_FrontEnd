@@ -46,6 +46,7 @@
     padding: 50px;
     border-radius: 10px;
     gap: 5px;
+    z-index: 1;
 
 }
 #consultation-form {
@@ -65,7 +66,7 @@
 }
 .register{
     width: 100%;
-    height: 100vh;
+    height:100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -93,6 +94,7 @@ form input[type = file] {
     position: absolute;
     top: 40px;
     left: 40px;
+    z-index: 1;
 }
 .back-to-home button{
     display: flex;
@@ -110,5 +112,21 @@ form input[type = file] {
     .input-beSide{
         display: flex;
         flex-direction: column;
+    }
+    .register{
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: unset;
+        flex-direction: column;
+    }
+    .back-to-home{
+        position: unset;
+    }
+    .section_form{
+        width: 100%;
+        min-height: 180px;
     }
 }

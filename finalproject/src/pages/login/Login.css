@@ -91,7 +91,7 @@
     z-index: 1;
 }
 
-.triangle-down {
+/* .triangle-down {
   position: absolute;
   bottom: -120px;
   right: -600px;
@@ -102,7 +102,7 @@
 	border-bottom: 600px solid var(--red);
     rotate: 130deg ;
     z-index: -1;
-}
+} */
 @media screen and (max-width: 450px) {
   .triangle-down{
     display: none;

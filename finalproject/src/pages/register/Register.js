@@ -92,7 +92,7 @@ function Register() {
       }
       console.log(postDataTutors)
 
-    return (<>
+    return (<div>
         <div className="register">
             <div>
             <div class="triangle-up"></div>
@@ -101,7 +101,7 @@ function Register() {
             <div className="back-to-home">
                 <button onClick={()=>{navigation('/homepage')}}> < BiArrowBack/> <span> Back to Home </span></button> 
             </div>
-            <section className="section_form" style={{marginTop:"300px"}}>
+            <section className="section_form" >
                 <h2>Register</h2>
                 <div className="register-as" style={{display:"flex" , justifyContent:"center" ,width:"100%"}} >
                     <button onClick={handleClickButton1}
@@ -152,7 +152,7 @@ function Register() {
 
             </section>
         </div>
-        </>
+        </div>
     );
 }
 
