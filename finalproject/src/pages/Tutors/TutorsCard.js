@@ -1,10 +1,14 @@
 import './Tutor.css'
+import { useContext } from "react";
+import { UrlContext } from "../../Layout";
+
 
 function TutorsCard(props) {
+    const URL = useContext(UrlContext)
     return ( 
         <div className="tutors_card">
             <div className="tutors-image">
-                <img src={`http://localhost:4000/${props.image}`} alt="tuors" />
+                <img src={`${URL}/${props.image}`} alt="tuors" />
             </div>
             <div className='tutors-info'>
                 <h3> {props.fullName}</h3>

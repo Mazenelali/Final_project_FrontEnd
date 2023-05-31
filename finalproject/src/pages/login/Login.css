@@ -69,6 +69,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 .feed-form p span{
   display: flex;
@@ -76,4 +77,37 @@
   font-size: 17px;
   font-weight: 700;
   color: var(--red);
+}
+.triangle-up {
+  position: absolute;
+  top: -120px;
+  left: -600px;
+	width: 0;
+	height: 0;
+	border-left: 600px solid transparent;
+	border-right: 600px solid transparent;
+	border-bottom: 600px solid var(--yellow);
+    rotate: -45deg ;
+    z-index: 1;
+}
+
+.triangle-down {
+  position: absolute;
+  bottom: -120px;
+  right: -600px;
+	width: 0;
+	height: 0;
+	border-left: 600px solid transparent;
+	border-right: 600px solid transparent;
+	border-bottom: 600px solid var(--red);
+    rotate: 130deg ;
+    z-index: -1;
+}
+@media screen and (max-width: 450px) {
+  .triangle-down{
+    display: none;
+  }
+  .triangle-up{
+    display: none;
+  }
 }

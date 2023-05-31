@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import {BiArrowBack} from "react-icons/bi"
 import { useState , useEffect } from "react";
 import axios from "axios";
+import { useContext } from "react";
+import { UrlContext } from "../../Layout";
 
 function Login() {
     const navigation = useNavigate()
@@ -13,6 +15,7 @@ function Login() {
 
 const [visible , setvisible] = useState(false)
 const [responseLogin , setResposeLogin] = useState()
+const URL = useContext(UrlContext)
 
 
 
@@ -20,7 +23,7 @@ const [responseLogin , setResposeLogin] = useState()
 
 
 const submitLogin = ()=>{
-    axios.post("http://localhost:4000/User/login" , dataLogin).then((response)=>{
+    axios.post(`https://educate-mazenelali.onrender.com/User/login` , dataLogin).then((response)=>{
         console.log(response)
         setResposeLogin(response.data.message)
         
@@ -36,7 +39,7 @@ const submitLogin = ()=>{
         }, 1600 );
         
     }).catch((err)=>{
-        console.log(err.message)
+        console.log(err)
     })
 }
    const handleChange = (e)=>{
@@ -49,6 +52,10 @@ const submitLogin = ()=>{
 
     return (
         <div className="login">
+            <div>
+            <div class="triangle-up"></div>
+            <div class="triangle-down"></div>
+            </div>
             <div className="back-to-home">
                 <button onClick={()=>{navigation('/homepage')}}> < BiArrowBack/> <span> Back to Home </span></button> 
             </div>

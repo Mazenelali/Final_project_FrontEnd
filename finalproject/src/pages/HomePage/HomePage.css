@@ -11,12 +11,18 @@
 .image{
     width: 40%;
     height: 30rem;
-    
+    background-color: var(--yellow);
+    border-radius: 30% 70% 70% 30% / 36% 56% 44% 65% ;
+    position: relative;
+    margin-top: 30px;
+    margin-right: 20px;
 }
 .image img {
     width: 100%;
     height: 130%;
     object-fit: cover;
+    position: absolute;
+    top: -50px;
 }
 .description{
     width: 60rem;
@@ -51,29 +57,40 @@
     flex-direction: column;
     align-items: center;
     gap: 50px;
+    margin-bottom: 50px;
 }
 .navigate-to h2 {
     font-size: 50px;
     color: var(--yellow);
+    margin-top: 80px;
 }
 .section-under-hero{
+    display: flex;
+    flex-direction: column;
+    gap: 5px 
+}
+.section-under-hero .imageContainer{
     width: 500px;
     height: 330px;
+}
+.section-under-hero .imageContainer img:hover{
+    opacity: 0.80;
 }
 .Our-tutors-section{
     display: flex;
     gap: 100px;
 }
-.section-under-hero img {
+.section-under-hero .imageContainer img {
     width: 100%;
     height: 100%;
-    transition: 0.5s all;
+    object-fit: cover;
+    transition: all 0.6s;
+    transition-timing-function: cubic-bezier(0.4, 1.55, 0.74, 0.55);
+    
     
 }
-.section-under-hero img:hover{
-    opacity: 0.5;
-}
-.Under-image{
+
+.section-under-hero .Under-image{
     background-color: var(--yellow);
     height: 30px;
     display: flex;
@@ -83,8 +100,122 @@
 .Under-image h4 {
     margin: 0;
 }
-footer{
+
+/* carousel */
+
+.carousel_tutors{
+    height: 450px;
     width: 100%;
-    height: 17rem;
-    background-color: var(--balck);
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+}
+.the-tutors{
+    height:100%;
+    width: 80%;
+}
+.the-tutors h2{
+    color: var(--red);
+    font-weight: 200;
+    font-size: 35px;
+}
+.card-carousel{
+    height: 80%;
+    display: flex;
+    flex-direction: row;
+    gap: 26px;
+    overflow-x:scroll;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+.each-card {
+    width: 400px;
+    height: 93%;
+    margin: 10px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: -1px 2px 15px -1px rgba(43,41,41,0.40);
+-webkit-box-shadow: -1px 2px 15px -1px rgba(43,41,41,0.40);
+-moz-box-shadow: -1px 2px 15px -1px rgba(43,41,41,0.40);
+}
+.cards{
+    width: 400px;
+    
+}
+.imageofcarouser{
+    width: 400px;
+    height: 250px;
+}
+.imageofcarouser img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-right-radius: 8px ;
+    border-top-left-radius: 8px;
+}
+.sub-image{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    color: #2C3424;
+}
+.sub-image h3 {
+     font-weight: 600;
+     margin-bottom: 0;
+     margin-top: 15px;
+}
+
+
+@media screen and (max-width: 450px) {
+    .description{
+        padding: 10px;
+    }
+    .description h1 {
+        font-size: 40px;
+        padding: 15px;
+    }
+    .Our-tutors-section{
+        display: flex;
+        flex-direction: column;
+    }
+    .HomePage{
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        margin-top: 80px;
+        
+    }
+    .image{
+        display: none;
+    }
+    .buttons .button1 button {
+        padding: 10px;
+    }
+    .buttons .button2 button {
+        padding: 10px;
+    }
+
+    .navigate-to h2 {
+        font-size: 30px;
+        padding: 10px;
+    }
+    .navigate-to {
+        margin-bottom: 330px;
+    }
+    .section-under-hero .imageContainer{
+        width: 350px;
+        height: 270px;
+    }
+    .cards{
+        width: 300px;
+        
+    }
+    .imageofcarouser{
+        width: 300px;
+        height: 250px;
+    }
 }

@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import {BiArrowBack} from "react-icons/bi"
 import axios from "axios"
-
+import { useContext } from "react";
+import { UrlContext } from "../../Layout";
 function Register() {
     const navigation = useNavigate()
 
     const [isClickedButton1, setIsClickedButton1] = useState(false);
     const [isClickedButton2, setIsClickedButton2] = useState(false);
+    const URL = useContext(UrlContext)
 
     const [postDataTutors ,setDataTutors] = useState({
         first_name:"",
@@ -66,7 +68,7 @@ function Register() {
         formData.append('description', postDataTutors.description);
         formData.append('number_phone', postDataTutors.number_phone);
 
-       axios.post("http://localhost:4000/User/",formData ).then((response)=>{
+       axios.post(`https://educate-mazenelali.onrender.com/User/`,formData ).then((response)=>{
         console.log(response)
       }).catch((err)=>{
             console.log(err)
@@ -82,7 +84,7 @@ function Register() {
       };
     
       const submitStudent = ()=>{
-        axios.post('http://localhost:4000/Student/addStudent/',postDataStudent).then((response)=>{
+        axios.post(`${URL}/Student/addStudent/`,postDataStudent).then((response)=>{
             console.log(response)
         }).catch((err)=>{
             console.log(err)
@@ -92,20 +94,24 @@ function Register() {
 
     return (<>
         <div className="register">
+            <div>
+            <div class="triangle-up"></div>
+            <div class="triangle-down"></div>
+            </div>
             <div className="back-to-home">
                 <button onClick={()=>{navigation('/homepage')}}> < BiArrowBack/> <span> Back to Home </span></button> 
             </div>
-            <section className="section_form">
+            <section className="section_form" style={{marginTop:"300px"}}>
                 <h2>Register</h2>
-                <div className="register-as" >
+                <div className="register-as" style={{display:"flex" , justifyContent:"center" ,width:"100%"}} >
                     <button onClick={handleClickButton1}
                         style={ isClickedButton1 ? {color:"black" , borderBottom:"1px solid black"} : undefined }>Register as tutors</button>
-                    <button
+                    {/* <button
                         onClick={handleClickButton2}
-                        style={  isClickedButton2 ? {color:"black" , borderBottom:"1px solid black"} : undefined }>Register as student</button>
+                        style={  isClickedButton2 ? {color:"black" , borderBottom:"1px solid black"} : undefined }>Register as student</button> */}
                 </div>
 
-                {isClickedButton1&&<div id="consultation-form" className="feed-form" >
+                {isClickedButton1&&<div id="consultation-form" className="feed-form"  >
                     <div className="input-beSide">
                     <input name="first_name" required="" placeholder="First Name" type="text" onChange={handleChange} />
                     <input name="last_name" required="" placeholder="Last Name" type="text" onChange={handleChange} />
@@ -131,7 +137,7 @@ function Register() {
 
                     <button className="button_submit" onClick={SubmitTutors}>Register</button>
                 </div>}
-
+{/* 
                 {isClickedButton2 &&<div id="consultation-form" className="feed-form" >
 
                     <div className="input-beSide">
@@ -142,7 +148,7 @@ function Register() {
                     <input name="email" required="" placeholder="E-mail" type="email" onChange={handleChangeStudent} />
                     <input name="password" type="password" required="" placeholder="Password" onChange={handleChangeStudent} />
                     <button className="button_submit" onClick={submitStudent}>Register</button>
-                </div>}
+                </div>} */}
 
             </section>
         </div>

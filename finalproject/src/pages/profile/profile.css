@@ -23,6 +23,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    box-shadow: 2px -2px 1px black;
 }
 .Shape-button{
     margin-top: 30px;
@@ -31,11 +32,13 @@
     background-color: var(--red);
     position: absolute;
     bottom: 30px;
+    z-index: 1;
     right: 0;
     border-bottom-left-radius: 200px;
     border-top-left-radius: 200px ;    
     display: flex;
     align-items: center;
+    box-shadow: 2px 2px 1px black;
 }
 .image-profile{
     width: 250px;
@@ -64,6 +67,22 @@ padding: 10px;
     gap: 30px;
     align-items: center;
 }
+.add_new_post{
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+}
+.add_new_post button{
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 20px;
+    padding: 10px;
+    height: 40px;
+}
 .logout{
     margin-left: 50px;
     width: 100px;
@@ -88,6 +107,9 @@ width: 500px;
     font-size: 17px;
     font-weight: 700;
 }
+.profile h2 {
+    font-size: 30px;
+}
 .personal-info button{
 padding: 5px;
 width: 30px;
@@ -95,12 +117,110 @@ height: 30px;
 background-color: var(--red);
 }
 .post_cards{
+    border-top: 1px solid black ;
     padding: 20px;
-    margin-top: 10px;
+    padding-top: 20px;
     width: 100%;
     height: 100%;
     overflow-y: hidden;
     display: grid;
-    grid-template-columns: 1fr 1fr ;
+    grid-template-columns: repeat(2 , 1fr) ;
     gap: 15px;
+}
+.Post-PopUp{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.041);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(3px);
+    width: 100%;
+    height:100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.section_form .action-post{
+    display: flex;  
+    justify-content: space-between;
+    width: 100%;
+    align-items: flex-start;
+}
+
+.section_form  button {
+     border: transparent;
+     padding: 0;
+     font-size: 20px;
+     font-weight: 700;
+}
+
+@media screen and (max-width: 450px) {
+
+    .profile-container{
+        margin-top: 300px;
+    }
+    .Shape{
+        height: 200px;
+        width: 250px;
+        margin-top: 100px;
+    }
+    .image-profile{
+        height: 150px;
+        width: 150px;
+        margin-bottom: 10px;
+    }
+    .Shape-button{
+        height: 0;
+        top: 244px;
+        right: -100px;
+    }
+    .each-info{
+        width: 300px;
+    }
+    .personal-info{
+        width: 300px;
+    }
+    .logout{
+        width: 50px;
+        height: 50px;
+        z-index: -99;
+    }
+    .logout button {
+        padding: 0;
+        font-size: 12px;
+    }
+    .post_cards{
+        display: grid;
+        grid-template-columns: 1fr;
+        overflow-y: unset;
+    }
+    .tutors_card{
+        width: 300px;
+        min-height: 200px;
+    }
+    .tutors-info-container span ,.tutors-info  p {
+        font-size: 13px;
+    }
+    .tutors-info .class-title {
+        font-size: 12px;
+    }
+    .tutors-info h3{
+        font-size: 15px;
+    }
+    .add_new_post h2 {
+        font-size: 20px;
+    }
+    .add_new_post button {
+        padding: 5px;
+        font-size: 13px;
+        height: 25px;
+    }
+    .section_form{
+        width: 200px;
+        z-index: 1;
+    }
+    #consultation-form{
+        width: 230px;
+        z-index: 1;
+    }
 }

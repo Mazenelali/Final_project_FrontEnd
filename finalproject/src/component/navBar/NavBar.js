@@ -2,9 +2,14 @@ import "./NavBar.css";
 import logo from "../../image/logo.png";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useContext } from "react";
+import { UrlContext } from "../../Layout";
+
 
 function NavBar() {
     const navigate = useNavigate();
+    const URL = useContext(UrlContext)
 
     const links = [
         {
@@ -29,6 +34,73 @@ function NavBar() {
     const token = localStorage.getItem("token");
     const image = localStorage.getItem("image");
     const Name = localStorage.getItem("full name");
+
+
+
+    // for side bar
+    function toggelSideBar() {
+        const sideBar = document.querySelector(".nav-container")
+        sideBar.classList.toggle('open')
+
+        const sideBarContent = document.querySelector(".none")
+        sideBarContent.classList.toggle('showSide')
+    }
+
+    if (window.innerWidth < 450) {
+
+        return (<div class="nav" >
+            <input id="menu" type="checkbox" />
+            <label for="menu" onClick={()=>{toggelSideBar()}}></label>
+            <div className="nav-container">
+             <div className="none">
+            <div className="Logo-SideBar">
+                    <img src={logo} alt="logo" />
+                </div>
+                <div className="links-SideBar">
+                    {links.map((ele) => {
+                        return (
+                            <NavLink
+                                key={links.indexOf(ele)}
+                                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                                className={"each-link-SideBar"}
+                                to={ele.location}
+                            >
+                                {" "}
+                                {ele.name}
+                            </NavLink>
+                        );
+                    })}
+                </div>
+                <div className="button-side-bar">
+                {token ? (
+                    <button
+                        className="profile-button"
+                        onClick={() => {
+                            navigate("/profile     ");
+                        }}
+                    >
+                        <div className="profile-icon">
+                            <div className="image-home">
+                                <img src={`https://educate-mazenelali.onrender.com/${image}`} alt="" />
+                            </div>
+                            <span>{Name}</span>
+                        </div>
+                    </button>
+                ) : (
+                    <button
+                        onClick={() => {
+                            navigate("/login");
+                        }}
+                    >
+                        Login
+                    </button>
+                )}
+            </div>
+                </div>
+
+            </div>
+        </div>)
+    }
 
     return (
         <div className="NavBar">
@@ -62,7 +134,7 @@ function NavBar() {
                     >
                         <div className="profile-icon">
                             <div className="image-home">
-                                <img src={`http://localhost:4000/${image}`} alt="" />
+                                <img src={`https://educate-mazenelali.onrender.com/${image}`} alt="" />
                             </div>
                             <span>{Name}</span>
                         </div>
