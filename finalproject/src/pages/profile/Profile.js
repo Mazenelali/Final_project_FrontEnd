@@ -130,7 +130,7 @@ function Profile() {
 
         axios
             .patch(
-                `http://localhost:4000/User/${localStorage.getItem("_id")}`,
+                `${URL}/${localStorage.getItem("_id")}`,
                 formData
             )
             .then((response) => {
