@@ -110,7 +110,7 @@ function HomePage() {
                 <img src={tutors} alt="tutors" />
                 </div>
                 <div className="Under-image">
-                    <h4>+{dataTutors.length} tutors</h4>
+                    <h4>+{!dataTutors ? 0 : dataTutors.length} tutors</h4>
                 </div>
             </div>
             <div className="section-under-hero" onClick={()=>{navigate('/course')}}>
@@ -118,7 +118,7 @@ function HomePage() {
                 <img src={library} alt="library" />
                 </div>
                 <div className="Under-image">
-                <h4>+{dataCourse.length} course</h4> 
+                <h4>+{!dataCourse ? 0 :dataCourse.length} course</h4> 
                 </div>
             </div>
             </div>
