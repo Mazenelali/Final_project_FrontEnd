@@ -86,12 +86,12 @@ function Course() {
 
                 return <article class="card"> 
                         {/* {localStorage.getItem('role') === 'student' ? <div className="input-star"> <input id="star1" class="Star" type="checkbox"  title="bookmark page" onClick={()=>{setIdFavorite({favorite_post_id : ele._id}) ; MakeFavorite()} }  /> </div> : null} */}
-                        <img src={`${URL}/${ele.image}`} alt="" />
+                        <img src={`${ele.image}`} alt="" />
                         <div class="card_content">
                             <span class="card_title">{ele.title}</span>
                             <div className="posted-by">
                                 <div className="image-person">
-                                    <img src={`${URL}/${ele.User_id[0].image}`} alt=""/>
+                                    <img src={`${ele.User_id[0].image}`} alt=""/>
                                 </div>
                                 <span>{`${ele.User_id[0].first_name} ${ele.User_id[0].last_name}`}</span>
                             </div>

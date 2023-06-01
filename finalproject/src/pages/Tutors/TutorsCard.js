@@ -8,7 +8,7 @@ function TutorsCard(props) {
     return ( 
         <div className="tutors_card">
             <div className="tutors-image">
-                <img src={`${URL}/${props.image}`} alt="tuors" />
+                <img src={`${props.image}`} alt="tuors" />
             </div>
             <div className='tutors-info'>
                 <h3> {props.fullName}</h3>

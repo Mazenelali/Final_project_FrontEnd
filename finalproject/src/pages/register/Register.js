@@ -11,6 +11,7 @@ function Register() {
     const [isClickedButton1, setIsClickedButton1] = useState(false);
     const [isClickedButton2, setIsClickedButton2] = useState(false);
     const URL = useContext(UrlContext)
+    const [image , setImage] = useState()
 
     const [postDataTutors ,setDataTutors] = useState({
         first_name:"",
@@ -56,23 +57,20 @@ function Register() {
     const SubmitTutors = ()=>{
         console.log(postDataTutors)
         const formData = new FormData();
-        formData.append('image', postDataTutors.image);
-        formData.append('first_name', postDataTutors.first_name);
-        formData.append('last_name', postDataTutors.last_name);
-        formData.append('languages', postDataTutors.languages);
-        formData.append('email' , postDataTutors.email)
-        formData.append('class_level', postDataTutors.class_level);
-        formData.append('class_title', postDataTutors.class_title);
-        formData.append('location', postDataTutors.location);
-        formData.append('password', postDataTutors.password);
-        formData.append('description', postDataTutors.description);
-        formData.append('number_phone', postDataTutors.number_phone);
+        formData.append('image', image);
 
-       axios.post(`https://educate-mazenelali.onrender.com/User/`,formData ).then((response)=>{
-        console.log(response)
-      }).catch((err)=>{
+        axios.post ('https://api.imgbb.com/1/upload?key=1d88a70f2899ea43e3ea29a52cfadddb' , formData).then((res)=>{
+            console.log(res)
+            const data = postDataTutors
+            data.image = res.data.data.url
+            axios.post(`https://educate-mazenelali.onrender.com/User/`,postDataTutors ).then((response)=>{
+                console.log(response)
+            }).catch((err)=>{
+                console.log(err)
+            })
+        }).catch((err)=>{
             console.log(err)
-      })
+        })
     }
 
     const handleChangeStudent = (e) => {
@@ -92,7 +90,7 @@ function Register() {
       }
       console.log(postDataTutors)
 
-    return (<div>
+    return (<div  >
         <div className="register">
             <div>
             <div class="triangle-up"></div>
@@ -132,7 +130,7 @@ function Register() {
                     
                     
                     <label> Uplod image Profile</label>
-                    <input name="image" required="" placeholder="Image" type="file" onChange={(e)=>{setDataTutors({...postDataTutors, image: e.target.files[0]})}}/>
+                    <input name="image" required="" placeholder="Image" type="file" onChange={(e)=>{setImage(e.target.files[0])}}/>
                     
 
                     <button className="button_submit" onClick={SubmitTutors}>Register</button>

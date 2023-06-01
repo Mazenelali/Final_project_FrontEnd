@@ -62,9 +62,9 @@ function Tutors () {
     return ( 
     <div className="tutor">
         <div className="tutor-Constainer">
-        <h3>Privet Tutors </h3>
+        <h3>Private Tutors </h3>
         <div className="shearch-tutor">
-            <input type="text"  placeholder="Shearch for teacher"/>
+            <input type="text"  placeholder="Shearch for Tutor"/>
             <button>Shearch</button>
         </div>
         <div className="tutors-card-container">

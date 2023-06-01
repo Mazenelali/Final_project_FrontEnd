@@ -53,11 +53,12 @@ const submitLogin = ()=>{
     return (
         <div className="login">
             <div>
-            <div class="triangle-up"></div>
-            <div class="triangle-down"></div>
-            </div>
+            <div class="triangle-up">
             <div className="back-to-home">
                 <button onClick={()=>{navigation('/homepage')}}> < BiArrowBack/> <span> Back to Home </span></button> 
+            </div>
+            </div>
+            <div class="triangle-down"></div>
             </div>
             <section className="section_form">
                 <h2>Login</h2>

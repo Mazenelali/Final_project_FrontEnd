@@ -63,13 +63,13 @@ function HomePage() {
         <div className="carousel_tutors">
             <div className="the-tutors">
             <h2>
-                Leatest Tutors
+                Latest Tutors
             </h2>
             <div className="card-carousel">
             {!dataTutors? "wait" : dataTutors.slice(0 , 9).map((ele)=>{return <div className="each-card">
                         <div className="cards">
                             <div className="imageofcarouser">
-                                <img src={`${URL}/${ele.image}`} alt=""/>
+                                <img src={`${ele.image}`} alt=""/>
                             </div>
                             <div className="sub-image">
                                 <h3> {`${ele.first_name} ${ele.last_name}`}</h3>
@@ -84,13 +84,13 @@ function HomePage() {
         <div className="carousel_tutors" style={{marginTop:"100px"}}>
             <div className="the-tutors">
             <h2>
-                Leatest Cousers
+                Latest Cousers
             </h2>
             <div className="card-carousel">
             {!dataCourse? "wait" : dataCourse.slice(0 , 9).map((ele)=>{return <div className="each-card">
                         <div className="cards">
                             <div className="imageofcarouser">
-                                <img src={`${URL}/${ele.image}`} alt=""/>
+                                <img src={`${ele.image}`} alt=""/>
                             </div>
                             <div className="sub-image">
                                 <h3>  {ele.title}</h3>

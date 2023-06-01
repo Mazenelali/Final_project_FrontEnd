@@ -13,8 +13,10 @@ function Profile() {
     const id = localStorage.getItem("_id");
     const navigate = useNavigate();
     const [DataProfile, setDataProfile] = useState(null);
-    const [DataUpdateById ,setDataUpdateById]= useState()
+    const [DataUpdateById, setDataUpdateById] = useState()
     const URL = useContext(UrlContext)
+    const [image, setImage] = useState()
+    const [imageUpdate, setImageUpdate] = useState()
 
     const [DataProfileUpdate, setDataUpdate] = useState({
         first_name: "",
@@ -38,7 +40,6 @@ function Profile() {
         availble_week: "",
         price: null,
         User_id: `${id}`,
-        image: null,
     });
 
     const isclick = () => {
@@ -54,7 +55,7 @@ function Profile() {
 
     const [ShowEditPost, setEditPost] = useState();
 
-    const [IdUpdate , setIdUpdate] = useState(null)
+    const [IdUpdate, setIdUpdate] = useState(null)
 
     console.log(IdUpdate)
 
@@ -116,29 +117,25 @@ function Profile() {
     };
     const SubmitEditProfile = () => {
         const formData = new FormData();
-        formData.append("image", DataProfileUpdate.image);
-        formData.append("first_name", DataProfileUpdate.first_name);
-        formData.append("last_name", DataProfileUpdate.last_name);
-        formData.append("languages", DataProfileUpdate.languages);
-        formData.append("class_level", DataProfileUpdate.class_level);
-        formData.append("class_title", DataProfileUpdate.class_title);
-        formData.append("location", DataProfileUpdate.location);
-        formData.append("description", DataProfileUpdate.description);
-        formData.append("number_phone", DataProfileUpdate.number_phone);
+        formData.append("image", imageUpdate);
+        axios.post('https://api.imgbb.com/1/upload?key=1d88a70f2899ea43e3ea29a52cfadddb', formData).then((res) => {
+            const data = { ...DataProfileUpdate, image: res.data.data.url }
+            axios
+                .patch(
+                    `${URL}/User/${localStorage.getItem("_id")}`,
+                    data
+                )
+                .then((response) => {
+                    console.log(response);
+                    getDataProfile()
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
 
-        console.log(formData);
-
-        axios
-            .patch(
-                `${URL}/User/${localStorage.getItem("_id")}`,
-                formData
-            )
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        }).catch((err) => {
+            console.log(err)
+        })
     };
 
     const getDataPost = () => {
@@ -164,252 +161,250 @@ function Profile() {
             [e.target.name]: value,
         });
     };
-    
+
 
     const submitPost = () => {
         const formdata = new FormData();
-        formdata.append("image", addPost.image);
-        formdata.append("title", addPost.title);
-        formdata.append("description", addPost.description);
-        formdata.append("availble_week", addPost.availble_week);
-        formdata.append("location", addPost.location);
-        formdata.append("price", addPost.price);
-        formdata.append("User_id", addPost.User_id);
+        formdata.append("image", image);
+        axios.post("https://api.imgbb.com/1/upload?key=1d88a70f2899ea43e3ea29a52cfadddb", formdata).then(res => {
+            const data = addPost
+            console.log(res)
+            data.image = res.data.data.image.url
+
+            axios
+                .post(`${URL}/post/`, data)
+                .then((response) => {
+                    console.log(response);
+                    ShowForm()
+                    getDataPost()
+
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+        ).catch(err => { console.log(err) })
+
+    };
+    console.log(addPost)
+
+    const [EditDataPost, setEditDataPost] = useState()
+
+    const handelEditPost = (e) => {
+        const value = e.target.value;
+        setEditDataPost({
+            ...EditDataPost,
+            [e.target.name]: value,
+        });
+    };
+
+
+    console.log(EditDataPost)
+    const submitEditPost = () => {
+        const formdata = new FormData();
+        formdata.append("image", imageUpdate);
+        axios.post("https://api.imgbb.com/1/upload?key=1d88a70f2899ea43e3ea29a52cfadddb", formdata).then((res) => {
+            console.log(res)
+            const data = { ...EditDataPost, image: res.data.data.url }
+
+            axios
+                .patch(`${URL}/post/${IdUpdate}`, data)
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }).catch((err) => {
+            console.log(err)
+        })
+
+    };
+
+    const [ShowPopUpEmail, setPopUpEmail] = useState(false)
+
+    const [dataSecurity, setDataSecurity] = useState({
+        email: "",
+        password: ""
+    })
+
+    const handelEditEmail = (e) => {
+        const value = e.target.value;
+        setDataSecurity({
+            ...dataSecurity,
+            [e.target.name]: value,
+        });
+    };
+    const [messageEmail, setMessageEmail] = useState()
+    const submitEditemail = () => {
+
+        const ID = localStorage.getItem('_id')
 
         axios
-            .post(`${URL}/post/`, formdata)
+            .patch(`${URL}/User/${ID}`, dataSecurity)
             .then((response) => {
                 console.log(response);
-                ShowForm()
-                getDataPost()
-
+                setMessageEmail(response.data.message)
             })
             .catch((err) => {
                 console.log(err);
             });
     };
-    console.log(addPost)
-
-    const [EditDataPost , setEditDataPost] = useState()
-
-const handelEditPost = (e) => {
-    const value = e.target.value;
-    setEditDataPost({
-        ...EditDataPost,
-        [e.target.name]: value,
-    });
-};
-
-
-console.log(EditDataPost)
-const submitEditPost = () => {
-    const formdata = new FormData();
-    formdata.append("image", EditDataPost.image);
-    formdata.append("title", EditDataPost.title);
-    formdata.append("description", EditDataPost.description);
-    formdata.append("availble_week", EditDataPost.availble_week);
-    formdata.append("location", EditDataPost.location);
-    formdata.append("price", EditDataPost.price);
-
-    axios
-        .patch(`${URL}/post/${IdUpdate}`, formdata)
-        .then((response) => {
-            console.log(response);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-};
-
-const[ShowPopUpEmail ,setPopUpEmail] = useState(false)
-
-const [dataSecurity ,setDataSecurity]=useState({
-    email :"",
-    password:""
-})
-
-const handelEditEmail = (e) => {
-    const value = e.target.value;
-    setDataSecurity({
-        ...dataSecurity,
-        [e.target.name]: value,
-    });
-};
- const [messageEmail , setMessageEmail] = useState()
-const submitEditemail = () => {
-
-    const ID = localStorage.getItem('_id')
-
-    axios
-        .patch(`${URL}/User/${ID}`, dataSecurity)
-        .then((response) => {
-            console.log(response);
-            setMessageEmail(response.data.message)
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-};
-console.log(dataSecurity)
+    console.log(dataSecurity)
 
 
     return (
         <>
-            <div className="Shape">
-                <div className="image-profile">
-                    <img
-                        src={
-                            !DataProfile
-                                ? logo
-                                : `${URL}/${DataProfile[0].image}`
-                        }
-                        alt=""
-                    />
-                </div>
-            </div>
+
             <div className="Shape-button">
-                <div className="logout">
-                    <span>
-                        <button
-                            onClick={() => {
-                                clearLocalStorage();
-                            }}
-                        >
-                            Logout
-                        </button>
-                    </span>
-                </div>
             </div>
             <div className="profile-container">
+
                 {!DataProfile ? (
                     "WAITT !!"
                 ) : (
                     <div className="profile">
-                        <div className="personal-info">
-                            <h2>
-                                {isCliked === false ? (
-                                    `${DataProfile[0].first_name} ${DataProfile[0].last_name}`
-                                ) : (
-                                    <>
-                                        {" "}
-                                        <input
-                                            type="text"
-                                            defaultValue={
-                                                DataProfile[0].first_name
-                                            }
-                                            name="first_name"
-                                            onChange={handelChageDataUpdate}
-                                        />{" "}
-                                        <input
-                                            type="tex"
-                                            defaultValue={
-                                                DataProfile[0].last_name
-                                            }
-                                            name="last_name"
-                                            onChange={handelChageDataUpdate}
-                                        />{" "}
-                                    </>
-                                )}
-                            </h2>{" "}
-                            <button onClick={isclick}>
-                                <GrEdit />
-                            </button>
-                        </div>
-                        <div className="each-info">
-                            <p className="Class-title">
-                                <span>Class Title : </span>
-                                {isCliked === false ? (
-                                    DataProfile[0].class_title
-                                ) : (
-                                    <input
-                                        type="tex"
-                                        defaultValue={
-                                            DataProfile[0].class_title
+                        <div className="flex-profile">
+                            <div className="Shape">
+                                <div className="image-profile">
+                                    <img
+                                        src={
+                                            !DataProfile
+                                                ? logo
+                                                : `${DataProfile[0].image}`
                                         }
-                                        name="class_title"
-                                        onChange={handelChageDataUpdate}
+                                        alt=""
                                     />
-                                )}
-                            </p>
-                            <p className="description-profile">
-                                <span>Description about yourself : </span>
-                                {isCliked === false ? (
-                                    DataProfile[0].description
-                                ) : (
-                                    <input
-                                        type="tex"
-                                        defaultValue={
-                                            DataProfile[0].description
-                                        }
-                                        name="description"
-                                        onChange={handelChageDataUpdate}
-                                    />
-                                )}
-                            </p>
-                            <p className="Languages">
-                                <span>Languages : </span>
-                                {isCliked === false ? (
-                                    DataProfile[0].languages
-                                ) : (
-                                    <input
-                                        type="tex"
-                                        defaultValue={DataProfile[0].languages}
-                                        name="languages"
-                                        onChange={handelChageDataUpdate}
-                                    />
-                                )}
-                            </p>
-                            <p className="Location">
-                                <span>Location : </span>
-                                {isCliked === false ? (
-                                    DataProfile[0].location
-                                ) : (
-                                    <input
-                                        type="tex"
-                                        defaultValue={DataProfile[0].location}
-                                        name="location"
-                                        onChange={handelChageDataUpdate}
-                                    />
-                                )}
-                            </p>
-                            <p className="Number Phone">
-                                <span>Number phone : </span>
-                                {isCliked === false ? (
-                                    DataProfile[0].number_phone
-                                ) : (
-                                    <input
-                                        type="tex"
-                                        defaultValue={
-                                            DataProfile[0].number_phone
-                                        }
-                                        name="number_phone"
-                                        onChange={handelChageDataUpdate}
-                                    />
-                                )}
-                            </p>
-                            {isCliked && (
-                                <p>
-                                    {" "}
-                                    <span>image :</span>{" "}
-                                    <input
-                                        type="file"
-                                        name="image"
-                                        onChange={(e) => {
-                                            setDataUpdate({
-                                                ...DataProfileUpdate,
-                                                image: e.target.files[0],
-                                            });
-                                        }}
-                                    />{" "}
-                                    <button onClick={SubmitEditProfile}>
-                                        {" "}
-                                        Edit{" "}
+                                </div>
+                            </div>
+                            <div className="personal-info">
+                                <div className="profile-title_heading">
+
+                                    <h2>
+                                        {isCliked === false ? (
+                                            `${DataProfile[0].first_name} ${DataProfile[0].last_name}`
+                                        ) : (
+                                            <>
+                                                {" "}
+                                                <input
+                                                    type="text"
+                                                    defaultValue={
+                                                        DataProfile[0].first_name
+                                                    }
+                                                    name="first_name"
+                                                    onChange={handelChageDataUpdate}
+                                                />{" "}
+                                                <input
+                                                    type="tex"
+                                                    defaultValue={
+                                                        DataProfile[0].last_name
+                                                    }
+                                                    name="last_name"
+                                                    onChange={handelChageDataUpdate}
+                                                />{" "}
+                                            </>
+                                        )}
+                                    </h2>{" "}
+                                    <button onClick={isclick}>
+                                        <GrEdit />
                                     </button>
-                                </p>
-                            )}
+                                </div>
+                                <div className="each-info">
+                                    <p className="Class-title">
+                                        <span>Class Title : </span>
+                                        {isCliked === false ? (
+                                            DataProfile[0].class_title
+                                        ) : (
+                                            <input
+                                                type="tex"
+                                                defaultValue={
+                                                    DataProfile[0].class_title
+                                                }
+                                                name="class_title"
+                                                onChange={handelChageDataUpdate}
+                                            />
+                                        )}
+                                    </p>
+                                    <p className="description-profile">
+                                        <span>Description about yourself : </span>
+                                        {isCliked === false ? (
+                                            DataProfile[0].description
+                                        ) : (
+                                            <input
+                                                type="tex"
+                                                defaultValue={
+                                                    DataProfile[0].description
+                                                }
+                                                name="description"
+                                                onChange={handelChageDataUpdate}
+                                            />
+                                        )}
+                                    </p>
+                                    <p className="Languages">
+                                        <span>Languages : </span>
+                                        {isCliked === false ? (
+                                            DataProfile[0].languages
+                                        ) : (
+                                            <input
+                                                type="tex"
+                                                defaultValue={DataProfile[0].languages}
+                                                name="languages"
+                                                onChange={handelChageDataUpdate}
+                                            />
+                                        )}
+                                    </p>
+                                    <p className="Location">
+                                        <span>Location : </span>
+                                        {isCliked === false ? (
+                                            DataProfile[0].location
+                                        ) : (
+                                            <input
+                                                type="tex"
+                                                defaultValue={DataProfile[0].location}
+                                                name="location"
+                                                onChange={handelChageDataUpdate}
+                                            />
+                                        )}
+                                    </p>
+                                    <p className="Number Phone">
+                                        <span>Number phone : </span>
+                                        {isCliked === false ? (
+                                            DataProfile[0].number_phone
+                                        ) : (
+                                            <input
+                                                type="tex"
+                                                defaultValue={
+                                                    DataProfile[0].number_phone
+                                                }
+                                                name="number_phone"
+                                                onChange={handelChageDataUpdate}
+                                            />
+                                        )}
+                                    </p>
+                                    {isCliked && (
+                                        <p>
+                                            {" "}
+                                            <span>image :</span>{" "}
+                                            <input
+                                                type="file"
+                                                name="image"
+                                                onChange={(e) => {
+                                                    setImageUpdate(
+                                                        e.target.files[0],
+                                                    );
+                                                }}
+                                            />{" "}
+                                            <button className="submit-edit-profile" onClick={SubmitEditProfile}>
+                                                {" "}
+                                                Edit{" "}
+                                            </button>
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
                         </div>
-                        <div style={{display:"flex" , flexDirection:"column" , gap:'10px'}}>
-                            <span style={{borderBottom : "1px solid black"}} onClick={()=>setPopUpEmail(true)}> change Password</span>
+                        <div style={{ display: "flex", flexDirection: "column", gap: '10px' }}>
+                            <span style={{ borderBottom: "1px solid black" }} onClick={() => setPopUpEmail(true)}> change Password</span>
                             {/* <span style={{borderBottom : "1px solid black"}}
                             onClick={()=>{
                                 const ID = localStorage.getItem('_id')
@@ -419,10 +414,21 @@ console.log(dataSecurity)
                                 })
                             }}
                             > Delete your account </span> */}
+                            <div className="logout">
+                                <span>
+                                    <button
+                                        onClick={() => {
+                                            clearLocalStorage();
+                                        }}
+                                    >
+                                        Logout
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                         <div className="add_new_post">
                             <h2> Your post</h2>
-                            <button onClick={ShowForm}>
+                            <button  onClick={ShowForm}>
                                 <span>+ </span>Add post
                             </button>
                         </div>
@@ -433,7 +439,7 @@ console.log(dataSecurity)
                                     return (
                                         <PostCard
                                             key={dataPost.indexOf(ele)}
-                                            _id = {ele._id}
+                                            _id={ele._id}
                                             title={ele.title}
                                             description={ele.description}
                                             location={ele.location}
@@ -442,11 +448,11 @@ console.log(dataSecurity)
                                             }
                                             price={ele.price}
                                             image={ele.image}
-                                            showEditForm = {setEditPost}
-                                            IdOfPost = {setIdUpdate}
-                                            setDataUpdateById = {setDataUpdateById}
-                                            getPosts = {getDataPost}
-                                            setEditDataPost= {setEditDataPost}
+                                            showEditForm={setEditPost}
+                                            IdOfPost={setIdUpdate}
+                                            setDataUpdateById={setDataUpdateById}
+                                            getPosts={getDataPost}
+                                            setEditDataPost={setEditDataPost}
                                         />
                                     );
                                 })}
@@ -501,10 +507,9 @@ console.log(dataSecurity)
                                             name="image"
                                             type="file"
                                             onChange={(e) => {
-                                                setAddPost({
-                                                    ...addPost,
-                                                    image: e.target.files[0],
-                                                });
+                                                setImage(
+                                                    e.target.files[0],
+                                                );
                                             }}
                                         />
                                         <button
@@ -517,12 +522,12 @@ console.log(dataSecurity)
                                 </section>
                             </div>
                         )}
-                            { ShowEditPost &&                            
+                        {ShowEditPost &&
                             <div className="Post-PopUp">
                                 <section className="section_form">
                                     <div className="action-post">
                                         <h2>Edit post</h2>
-                                        <button onClick={()=>{setEditPost(!ShowEditPost)}}>X</button>
+                                        <button onClick={() => { setEditPost(!ShowEditPost) }}>X</button>
                                     </div>
 
                                     <div
@@ -572,7 +577,7 @@ console.log(dataSecurity)
                                         <input
                                             name="image"
                                             type="file"
-                                            onChange={(e)=>{setEditDataPost({...EditDataPost, image:e.target.files[0]})}}
+                                            onChange={(e) => { setImageUpdate(e.target.files[0]) }}
                                         />
                                         <button
                                             className="button_submit"
@@ -583,41 +588,41 @@ console.log(dataSecurity)
                                     </div>
                                 </section>
                             </div>}
-                                {ShowPopUpEmail&&<div className="Post-PopUp">
-                                <section className="section_form">
-                                    <div className="action-post">
-                                        <h2>Edit Email Password</h2>
-                                        <button onClick={()=>setPopUpEmail(false)} >X</button>
-                                    </div>
+                        {ShowPopUpEmail && <div className="Post-PopUp">
+                            <section className="section_form">
+                                <div className="action-post">
+                                    <h2>Edit Email Password</h2>
+                                    <button onClick={() => setPopUpEmail(false)} >X</button>
+                                </div>
 
-                                    <div
-                                        id="consultation-form"
-                                        className="feed-form"
+                                <div
+                                    id="consultation-form"
+                                    className="feed-form"
+                                >
+                                    <p>{messageEmail}</p>
+                                    <input
+                                        name="email"
+                                        required=""
+                                        placeholder="Email"
+                                        type="text"
+                                        onClick={handelEditEmail}
+                                    />
+                                    <input
+                                        name="password"
+                                        type="text"
+                                        required=""
+                                        placeholder="Password"
+                                        onClick={handelEditEmail}
+                                    />
+                                    <button
+                                        className="button_submit"
+                                        onClick={submitEditemail}
                                     >
-                                        <p>{messageEmail}</p>
-                                        <input
-                                            name="email"
-                                            required=""
-                                            placeholder="Email"
-                                            type="text"
-                                            onClick={handelEditEmail}
-                                        />
-                                        <input
-                                            name="password"
-                                            type="text"
-                                            required=""
-                                            placeholder="Password"
-                                            onClick={handelEditEmail}
-                                        />
-                                        <button
-                                            className="button_submit"
-                                            onClick={submitEditemail}
-                                        >
-                                            Edit
-                                        </button>
-                                    </div>
-                                </section>
-                            </div>}
+                                        Edit
+                                    </button>
+                                </div>
+                            </section>
+                        </div>}
                     </div>
                 )}
             </div>
