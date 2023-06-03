@@ -6,18 +6,16 @@ import Footer from "../../component/footer/Footer"
 import {useNavigate} from "react-router-dom"
 import { useEffect, useState } from "react"
 import axios from "axios"
-import { useContext } from "react";
-import { UrlContext } from "../../Layout";
+import MiniLoder from "../../component/Mini-loder/MiniLoder"
 
 function HomePage() {
     const navigate =useNavigate()
 
     const [dataTutors , setDataTutors] = useState(null)
     const [dataCourse , setDataCourse] = useState(null)
-    const URL = useContext(UrlContext)
 
     const getDataTutors = ()=>{
-        axios.get(`${URL}/User/`).then((response)=>{
+        axios.get(`${process.env.REACT_APP_URL}/User/`).then((response)=>{
             setDataTutors(response.data)
         }).catch((err)=>{
             console.log(err)
@@ -25,7 +23,7 @@ function HomePage() {
     }
 
     const getDataCourse = ()=>{
-        axios.get(`${URL}/Post/`).then((response)=>{
+        axios.get(`${process.env.REACT_APP_URL}/Post/`).then((response)=>{
             setDataCourse(response.data)
         }).catch((err)=>{
             console.log(err)
@@ -42,7 +40,7 @@ function HomePage() {
     <div className="HomePage">
         <div className="heroSection">
             <div className="description">
-                <h1>Empower Your Learning Journey with Expert Online Tutoring</h1>
+                <h1>Empower Your <span style={{color:'#FF673D'}}> Learning</span> Journey with Expert Online <span style={{color:'#FCDC5B'}}>Tutoring</span> </h1>
                 <div className="buttons">
                 <div className="button1">
                 <button onClick={()=>{navigate('/tutors')}} >
@@ -66,7 +64,7 @@ function HomePage() {
                 Latest Tutors
             </h2>
             <div className="card-carousel">
-            {!dataTutors? "wait" : dataTutors.slice(0 , 9).map((ele)=>{return <div className="each-card">
+            {!dataTutors? <MiniLoder/> : dataTutors.slice(0 , 9).map((ele)=>{return <div className="each-card">
                         <div className="cards">
                             <div className="imageofcarouser">
                                 <img src={`${ele.image}`} alt=""/>
@@ -87,7 +85,7 @@ function HomePage() {
                 Latest Cousers
             </h2>
             <div className="card-carousel">
-            {!dataCourse? "wait" : dataCourse.slice(0 , 9).map((ele)=>{return <div className="each-card">
+            {!dataCourse? <MiniLoder/> : dataCourse.slice(0 , 9).map((ele)=>{return <div className="each-card">
                         <div className="cards">
                             <div className="imageofcarouser">
                                 <img src={`${ele.image}`} alt=""/>

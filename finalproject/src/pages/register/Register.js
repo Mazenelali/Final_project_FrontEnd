@@ -65,6 +65,7 @@ function Register() {
             data.image = res.data.data.url
             axios.post(`https://educate-mazenelali.onrender.com/User/`,postDataTutors ).then((response)=>{
                 console.log(response)
+                navigation('/login')
             }).catch((err)=>{
                 console.log(err)
             })
@@ -93,8 +94,6 @@ function Register() {
     return (<div  >
         <div className="register">
             <div>
-            <div class="triangle-up"></div>
-            <div class="triangle-down"></div>
             </div>
             <div className="back-to-home">
                 <button onClick={()=>{navigation('/homepage')}}> < BiArrowBack/> <span> Back to Home </span></button> 
@@ -109,7 +108,7 @@ function Register() {
                         style={  isClickedButton2 ? {color:"black" , borderBottom:"1px solid black"} : undefined }>Register as student</button> */}
                 </div>
 
-                {isClickedButton1&&<div id="consultation-form" className="feed-form"  >
+                {isClickedButton1&&<div id="consultation-form" className="feed-form small_input"  >
                     <div className="input-beSide">
                     <input name="first_name" required="" placeholder="First Name" type="text" onChange={handleChange} />
                     <input name="last_name" required="" placeholder="Last Name" type="text" onChange={handleChange} />
@@ -133,7 +132,7 @@ function Register() {
                     <input name="image" required="" placeholder="Image" type="file" onChange={(e)=>{setImage(e.target.files[0])}}/>
                     
 
-                    <button className="button_submit" onClick={SubmitTutors}>Register</button>
+                    <button className="button_submit"  onClick={SubmitTutors}>Register</button>
                 </div>}
 {/* 
                 {isClickedButton2 &&<div id="consultation-form" className="feed-form" >

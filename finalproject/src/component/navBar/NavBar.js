@@ -81,7 +81,7 @@ function NavBar() {
                     >
                         <div className="profile-icon">
                             <div className="image-home">
-                                <img src={`https://educate-mazenelali.onrender.com/${image}`} alt="" />
+                                <img src={`${image}`} alt="" />
                             </div>
                             <span>{Name}</span>
                         </div>

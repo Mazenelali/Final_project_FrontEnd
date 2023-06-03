@@ -66,3 +66,14 @@
     width: 890px;
     margin: 15px 0;
   }
+  @media screen and (max-width: 450px) { 
+    .wrapper{
+      width: 300px;
+    }
+    .wrapper-cell{
+      width: 300px;
+    }
+    .text-line{
+      width: 300px;
+    }
+  }

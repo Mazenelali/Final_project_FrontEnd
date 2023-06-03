@@ -2,13 +2,13 @@ import { useState } from "react";
 import { GrEdit } from "react-icons/gr";
 import { AiFillDelete } from "react-icons/ai";
 import axios from "axios";
-import { useContext } from "react";
-import { UrlContext } from "../../Layout";
+import Swal from "sweetalert2";
+
 
 function PostCard(props) {
     const [popUpEdit, setEditPopUp] = useState(false);
 
-    const URL = useContext(UrlContext);
+  
 
     return (
         <>
@@ -23,7 +23,7 @@ function PostCard(props) {
                         src={
                             props.image.startsWith("https")
                                 ? props.image
-                                : `${URL}/${props.image}`
+                                : `${process.env.REACT_APP_URL}/${props.image}`
                         }
                         alt="tuors"
                         style={{
@@ -66,7 +66,7 @@ function PostCard(props) {
                             <GrEdit
                                 onClick={() => {
                                     axios
-                                        .get(`${URL}/post/${props._id}`)
+                                        .get(`${process.env.REACT_APP_URL}/post/${props._id}`)
                                         .then((response) => {
                                             props.setDataUpdateById(
                                                 response.data[0]
@@ -85,14 +85,26 @@ function PostCard(props) {
                             />{" "}
                             <AiFillDelete
                                 onClick={() => {
-                                    axios
-                                        .delete(`${URL}/post/${props._id}`)
-                                        .then(() => {
-                                            props.getPosts();
-                                        })
-                                        .catch((err) => {
-                                            console.log(err);
-                                        });
+                                    Swal.fire({
+                                        title: 'Are you sure delete this post ?',
+                                        text: "You won't be able to revert this!",
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#FCDC5B',
+                                        cancelButtonColor: '#FF673D',
+                                        confirmButtonText: 'Yes, delete it!'
+                                      }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            axios
+                                            .delete(`${process.env.REACT_APP_URL}/post/${props._id}`)
+                                            .then(() => {
+                                                props.getPosts();
+                                            })
+                                            .catch((err) => {
+                                                console.log(err);
+                                            });
+                                        }
+                                      })
                                 }}
                             />
                         </div>

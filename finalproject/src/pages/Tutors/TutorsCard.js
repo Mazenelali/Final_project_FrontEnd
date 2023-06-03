@@ -1,10 +1,9 @@
 import './Tutor.css'
-import { useContext } from "react";
-import { UrlContext } from "../../Layout";
+
 
 
 function TutorsCard(props) {
-    const URL = useContext(UrlContext)
+
     return ( 
         <div className="tutors_card">
             <div className="tutors-image">

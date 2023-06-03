@@ -69,6 +69,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
+    background-image: url(https://static.vecteezy.com/system/resources/previews/011/508/282/non_2x/hand-drawn-doodle-seamless-pattern-with-school-icons-on-orange-background-illustration-of-supplies-back-to-school-concept-for-print-web-and-textile-design-stationery-vector.jpg );
 }
 .feed-form p span{
   display: flex;
@@ -111,5 +112,8 @@
   }
   .triangle-up{
     display: none;
+  }
+  .login{
+    flex-direction: column;
   }
 }

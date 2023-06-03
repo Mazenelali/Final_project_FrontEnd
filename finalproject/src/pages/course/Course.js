@@ -5,8 +5,7 @@ import LoderCourse from "../../component/loderCourse/LoderCours"
 import {MdArrowBackIosNew} from 'react-icons/md'
 import {MdArrowForwardIos} from 'react-icons/md'
 import {AiOutlineStar} from 'react-icons/ai'
-import { useContext } from "react";
-import { UrlContext } from "../../Layout";
+
 
 
 function Course() {
@@ -14,10 +13,10 @@ function Course() {
     const [dataCouse , setDataCourse] = useState(null)
     const [dataAwait ,setAwaitData] =useState([])
     
-    const URL = useContext(UrlContext)
+
 
     const getData= ()=>{
-        axios.get(`${URL}/Post/`).then((response)=>{
+        axios.get(`${process.env.REACT_APP_URL}/Post/`).then((response)=>{
             console.log(response.data)
             setDataCourse(response.data)
             setAwaitData ( splitArray( response.data , chunkSize))
@@ -65,7 +64,7 @@ function Course() {
         const [idFavorite ,setIdFavorite]=useState() 
 
       const MakeFavorite = ()=>{
-        axios.post(`${URL}/Student/addFavoriteCourse/${localStorage.getItem('_id')}` , idFavorite).then((response)=>{
+        axios.post(`${process.env.REACT_APP_URL}/Student/addFavoriteCourse/${localStorage.getItem('_id')}` , idFavorite).then((response)=>{
             console.log(response)
         }).catch((err)=>{
             console.log(err)

@@ -6,15 +6,14 @@ import logo from "../../image/logo.png";
 import { useNavigate } from "react-router-dom";
 import { GrEdit } from "react-icons/gr";
 import PostCard from "./postCard";
-import { useContext } from "react";
-import { UrlContext } from "../../Layout";
+import MiniLoder from "../../component/Mini-loder/MiniLoder";
+import swal from 'sweetalert2'
 
 function Profile() {
     const id = localStorage.getItem("_id");
     const navigate = useNavigate();
     const [DataProfile, setDataProfile] = useState(null);
     const [DataUpdateById, setDataUpdateById] = useState()
-    const URL = useContext(UrlContext)
     const [image, setImage] = useState()
     const [imageUpdate, setImageUpdate] = useState()
 
@@ -74,7 +73,7 @@ function Profile() {
 
         if (role === "tutor") {
             axios
-                .get(`${URL}/User/${id}`)
+                .get(`${process.env.REACT_APP_URL}/User/${id}`)
                 .then((response) => {
                     setDataProfile(response.data);
                     setDataUpdate({
@@ -93,7 +92,7 @@ function Profile() {
                 });
         } else {
             axios
-                .get(`${URL}/Student/getStudent/${id}`)
+                .get(`${process.env.REACT_APP_URL}/Student/getStudent/${id}`)
                 .then((response) => {
                     console.log(response);
                     setDataProfile(response.data);
@@ -122,7 +121,7 @@ function Profile() {
             const data = { ...DataProfileUpdate, image: res.data.data.url }
             axios
                 .patch(
-                    `${URL}/User/${localStorage.getItem("_id")}`,
+                    `${process.env.REACT_APP_URL}/User/${localStorage.getItem("_id")}`,
                     data
                 )
                 .then((response) => {
@@ -140,7 +139,7 @@ function Profile() {
 
     const getDataPost = () => {
         axios
-            .get(`${URL}/post/`)
+            .get(`${process.env.REACT_APP_URL}/post/`)
             .then((response) => {
                 const ID = localStorage.getItem("_id");
                 const filterData = response.data.filter((ele) => {
@@ -172,7 +171,7 @@ function Profile() {
             data.image = res.data.data.image.url
 
             axios
-                .post(`${URL}/post/`, data)
+                .post(`${process.env.REACT_APP_URL}/post/`, data)
                 .then((response) => {
                     console.log(response);
                     ShowForm()
@@ -208,7 +207,7 @@ function Profile() {
             const data = { ...EditDataPost, image: res.data.data.url }
 
             axios
-                .patch(`${URL}/post/${IdUpdate}`, data)
+                .patch(`${process.env.REACT_APP_URL}/post/${IdUpdate}`, data)
                 .then((response) => {
                     console.log(response);
                 })
@@ -241,7 +240,7 @@ function Profile() {
         const ID = localStorage.getItem('_id')
 
         axios
-            .patch(`${URL}/User/${ID}`, dataSecurity)
+            .patch(`${process.env.REACT_APP_URL}/User/${ID}`, dataSecurity)
             .then((response) => {
                 console.log(response);
                 setMessageEmail(response.data.message)
@@ -261,7 +260,7 @@ function Profile() {
             <div className="profile-container">
 
                 {!DataProfile ? (
-                    "WAITT !!"
+                    <div style={{height:"100vh" , width :"100%" , display:'flex' , justifyContent:'center' , alignItems :'center'}}> <MiniLoder/></div>
                 ) : (
                     <div className="profile">
                         <div className="flex-profile">
@@ -414,13 +413,13 @@ function Profile() {
                                 })
                             }}
                             > Delete your account </span> */}
-                            <div className="logout">
+                            <div className="logout" 
+                            onClick={() => {
+                                console.log("hello from logout");
+                                clearLocalStorage();
+                            }}>
                                 <span>
-                                    <button
-                                        onClick={() => {
-                                            clearLocalStorage();
-                                        }}
-                                    >
+                                    <button>
                                         Logout
                                     </button>
                                 </span>
