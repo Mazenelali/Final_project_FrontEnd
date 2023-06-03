@@ -8,6 +8,7 @@ import { GrEdit } from "react-icons/gr";
 import PostCard from "./postCard";
 import MiniLoder from "../../component/Mini-loder/MiniLoder";
 import swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 function Profile() {
     const id = localStorage.getItem("_id");
@@ -27,6 +28,7 @@ function Profile() {
         image: null,
         languages: "",
     });
+    console.log( DataProfileUpdate)
 
     const [isCliked, setClicked] = useState(false);
 
@@ -126,6 +128,23 @@ function Profile() {
                 )
                 .then((response) => {
                     console.log(response);
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                          toast.addEventListener('mouseenter', Swal.stopTimer)
+                          toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                      })
+                      
+                      Toast.fire({
+                        icon: 'success',
+                        iconColor:"#FF673D",
+                        title: 'Profile updated successfully'
+                      })
                     getDataProfile()
                 })
                 .catch((err) => {
@@ -209,7 +228,24 @@ function Profile() {
             axios
                 .patch(`${process.env.REACT_APP_URL}/post/${IdUpdate}`, data)
                 .then((response) => {
-                    console.log(response);
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                          toast.addEventListener('mouseenter', Swal.stopTimer)
+                          toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                      })
+                      
+                      Toast.fire({
+                        icon: 'success',
+                        iconColor:"#FF673D",
+                        title: 'Post updated successfully'
+                      })
+                    getDataPost()
                 })
                 .catch((err) => {
                     console.log(err);
@@ -238,6 +274,20 @@ function Profile() {
     const submitEditemail = () => {
 
         const ID = localStorage.getItem('_id')
+        if (!dataSecurity.email || !dataSecurity.password){
+            Swal.fire({
+                title: ' Please enter correct email and password',
+                icon:'warning',
+                confirmButtonColor :"#FCDC5B" , 
+                showClass: {
+                  popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                  popup: 'animate__animated animate__fadeOutUp'
+                }
+              })
+              
+        }else{
 
         axios
             .patch(`${process.env.REACT_APP_URL}/User/${ID}`, dataSecurity)
@@ -248,6 +298,7 @@ function Profile() {
             .catch((err) => {
                 console.log(err);
             });
+        }
     };
     console.log(dataSecurity)
 
