@@ -3,6 +3,10 @@
     display: flex;
     justify-content: center;
     position: relative;
+    background-image: url(../../image/background.png) ;
+    background-repeat: no-repeat;
+    background-size: cover; 
+    padding-bottom:15rem;
 }
 
 .profile {
@@ -224,5 +228,9 @@ background-color: var(--red);
     }
     .profile-title_heading{
         width: unset;
+    }
+    .profile-container{
+        background-image: unset;
+        padding-bottom: unset;
     }
 }

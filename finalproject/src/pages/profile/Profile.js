@@ -453,7 +453,7 @@ function Profile() {
                                 </div>
                             </div>
                         </div>
-                        <div style={{ display: "flex", flexDirection: "column", gap: '10px' }}>
+                        <div style={{ display: "flex", flexDirection: "column", gap: '13px' }}>
                             <span style={{ borderBottom: "1px solid black" }} onClick={() => setPopUpEmail(true)}> change Password</span>
                             {/* <span style={{borderBottom : "1px solid black"}}
                             onClick={()=>{
@@ -464,17 +464,10 @@ function Profile() {
                                 })
                             }}
                             > Delete your account </span> */}
-                            <div className="logout" 
-                            onClick={() => {
-                                console.log("hello from logout");
-                                clearLocalStorage();
-                            }}>
-                                <span>
-                                    <button>
+                            <button style={{borderRadius:"0" ,borderTop:"transparent" ,borderRight:"transparent", borderLeft:"transparent",borderBottom:"1px solid FF673D"}}
+                            onClick={()=>clearLocalStorage()}>
                                         Logout
-                                    </button>
-                                </span>
-                            </div>
+                            </button>
                         </div>
                         <div className="add_new_post">
                             <h2> Your post</h2>
