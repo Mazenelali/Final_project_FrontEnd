@@ -6,10 +6,9 @@ import { useState } from "react";
 import { useContext } from "react";
 import { UrlContext } from "../../Layout";
 
-
 function NavBar() {
     const navigate = useNavigate();
-    const URL = useContext(UrlContext)
+    const URL = useContext(UrlContext);
 
     const links = [
         {
@@ -35,71 +34,77 @@ function NavBar() {
     const image = localStorage.getItem("image");
     const Name = localStorage.getItem("full name");
 
-
-
     // for side bar
     function toggelSideBar() {
-        const sideBar = document.querySelector(".nav-container")
-        sideBar.classList.toggle('open')
+        const sideBar = document.querySelector(".nav-container");
+        sideBar.classList.toggle("open");
 
-        const sideBarContent = document.querySelector(".none")
-        sideBarContent.classList.toggle('showSide')
+        const sideBarContent = document.querySelector(".none");
+        sideBarContent.classList.toggle("showSide");
     }
 
     if (window.innerWidth < 450) {
-
-        return (<div class="nav" >
-            <input id="menu" type="checkbox" />
-            <label for="menu" onClick={()=>{toggelSideBar()}}></label>
-            <div className="nav-container">
-             <div className="none">
-            <div className="Logo-SideBar">
-                    <img src={logo} alt="logo" />
-                </div>
-                <div className="links-SideBar">
-                    {links.map((ele) => {
-                        return (
-                            <NavLink
-                                key={links.indexOf(ele)}
-                                style={({ isActive }) => (isActive ? activeStyle : undefined)}
-                                className={"each-link-SideBar"}
-                                to={ele.location}
-                            >
-                                {" "}
-                                {ele.name}
-                            </NavLink>
-                        );
-                    })}
-                </div>
-                <div className="button-side-bar">
-                {token ? (
-                    <button
-                        className="profile-button"
-                        onClick={() => {
-                            navigate("/profile     ");
-                        }}
-                    >
-                        <div className="profile-icon">
-                            <div className="image-home">
-                                <img src={`${image}`} alt="" />
-                            </div>
-                            <span>{Name}</span>
+        return (
+            <div class="nav">
+                <input id="menu" type="checkbox" />
+                <label
+                    for="menu"
+                    className="label"
+                    onClick={() => {
+                        toggelSideBar();
+                    }}
+                ></label>
+                <div className="nav-container">
+                    <div className="none">
+                        <div className="Logo-SideBar">
+                            <img src={logo} alt="logo" />
                         </div>
-                    </button>
-                ) : (
-                    <button
-                        onClick={() => {
-                            navigate("/login");
-                        }}
-                    >
-                        Login
-                    </button>
-                )}
-            </div>
+                        <div className="links-SideBar">
+                            {links.map((ele) => {
+                                return (
+                                    <NavLink
+                                        key={links.indexOf(ele)}
+                                        style={({ isActive }) =>
+                                            isActive ? activeStyle : undefined
+                                        }
+                                        className={"each-link-SideBar"}
+                                        to={ele.location}
+                                    >
+                                        {" "}
+                                        {ele.name}
+                                    </NavLink>
+                                );
+                            })}
+                        </div>
+                        <div className="button-side-bar">
+                            {token ? (
+                                <button
+                                    className="profile-button"
+                                    onClick={() => {
+                                        navigate("/profile     ");
+                                    }}
+                                >
+                                    <div className="profile-icon">
+                                        <div className="image-home">
+                                            <img src={`${image}`} alt="" />
+                                        </div>
+                                        <span>{Name}</span>
+                                    </div>
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() => {
+                                        navigate("/login");
+                                    }}
+                                >
+                                    Login
+                                </button>
+                            )}
+                        </div>
+                    </div>
                 </div>
-
             </div>
-        </div>)
+        );
     }
 
     return (
@@ -113,7 +118,9 @@ function NavBar() {
                         return (
                             <NavLink
                                 key={links.indexOf(ele)}
-                                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                                style={({ isActive }) =>
+                                    isActive ? activeStyle : undefined
+                                }
                                 className={"each-link"}
                                 to={ele.location}
                             >

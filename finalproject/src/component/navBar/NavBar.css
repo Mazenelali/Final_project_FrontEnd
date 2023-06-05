@@ -85,7 +85,7 @@ button {
     visibility: hidden;
   }
   
-  label {
+  .label {
     width: 60px;
     height: 8px;
     border-radius: 3px;
@@ -100,7 +100,7 @@ button {
     z-index: 2;
   }
   
-  label:before {
+  .label:before {
     content: "";
     width: 60px;
     height: 8px;
@@ -114,7 +114,7 @@ button {
     z-index: 2;
   }
   
-  label:after {
+  .label:after {
     content: "";
     width: 60px;
     height: 8px;
@@ -128,16 +128,16 @@ button {
     z-index: 2;
   }
   
-  #menu:checked + label {
+  #menu:checked + .label {
     width: 0;
   }
   
-  #menu:checked + label:before {
+  #menu:checked + .label:before {
     transform: rotate(45deg) translate(0px);
     -webkit-transform: rotate(45deg) translate(0px);
   }
   
-  #menu:checked + label:after {
+  #menu:checked + .label:after {
     transform: rotate(-45deg) translate(0px);
     -webkit-transform: rotate(-45deg) translate(0px);
   }

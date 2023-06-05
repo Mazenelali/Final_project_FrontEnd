@@ -42,13 +42,13 @@ function PostCard(props) {
                                       display: "flex",
                                       justifyContent: "space-between",
                                       alignItems: "center",
-                                      width: "270px",
+                                      width: "100%",
                                   }
                                 : {
                                       display: "flex",
                                       justifyContent: "space-between",
                                       alignItems: "center",
-                                      width: "270px",
+                                      width: "100%",
                                   }
                         }
                     >

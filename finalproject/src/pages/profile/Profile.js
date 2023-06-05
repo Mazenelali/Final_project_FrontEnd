@@ -4,31 +4,21 @@ import axios from "axios";
 // import Loder from "../../component/loder/Loder";
 import logo from "../../image/logo.png";
 import { useNavigate } from "react-router-dom";
-import { GrEdit } from "react-icons/gr";
+import { GrEdit, GrSave } from "react-icons/gr";
 import PostCard from "./postCard";
 import MiniLoder from "../../component/Mini-loder/MiniLoder";
-import swal from 'sweetalert2'
+import swal from "sweetalert2";
 import Swal from "sweetalert2";
 
 function Profile() {
     const id = localStorage.getItem("_id");
     const navigate = useNavigate();
     const [DataProfile, setDataProfile] = useState(null);
-    const [DataUpdateById, setDataUpdateById] = useState()
-    const [image, setImage] = useState()
-    const [imageUpdate, setImageUpdate] = useState()
+    const [DataUpdateById, setDataUpdateById] = useState();
+    const [image, setImage] = useState();
+    const [imageUpdate, setImageUpdate] = useState();
 
-    const [DataProfileUpdate, setDataUpdate] = useState({
-        first_name: "",
-        last_name: "",
-        class_title: "",
-        description: "",
-        location: "",
-        number_phone: "",
-        image: null,
-        languages: "",
-    });
-    console.log( DataProfileUpdate)
+    const [DataProfileUpdate, setDataUpdate] = useState(null);
 
     const [isCliked, setClicked] = useState(false);
 
@@ -53,21 +43,30 @@ function Profile() {
         setFromPost(!ShowFormPost);
     };
 
-
     const [ShowEditPost, setEditPost] = useState();
 
-    const [IdUpdate, setIdUpdate] = useState(null)
+    const [IdUpdate, setIdUpdate] = useState(null);
 
-    console.log(IdUpdate)
 
     const clearLocalStorage = () => {
-        localStorage.clear();
-        setTimeout(() => {
-            navigate("/Homepage");
-        }, 2000);
+        Swal.fire({
+            title: `Are you sure wanna logout ${localStorage.getItem(
+                "full name"
+            )} ?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#FCDC5B",
+            cancelButtonColor: "#FF673D",
+            confirmButtonText: "Yes!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.clear();
+                setTimeout(() => {
+                    navigate("/Homepage");
+                }, 2000);
+            }
+        });
     };
-
-
 
     const getDataProfile = () => {
         const role = localStorage.getItem("role");
@@ -118,42 +117,101 @@ function Profile() {
     };
     const SubmitEditProfile = () => {
         const formData = new FormData();
-        formData.append("image", imageUpdate);
-        axios.post('https://api.imgbb.com/1/upload?key=1d88a70f2899ea43e3ea29a52cfadddb', formData).then((res) => {
-            const data = { ...DataProfileUpdate, image: res.data.data.url }
+        if (imageUpdate) {
+            formData.append("image", imageUpdate);
             axios
-                .patch(
-                    `${process.env.REACT_APP_URL}/User/${localStorage.getItem("_id")}`,
-                    data
+                .post(
+                    "https://api.imgbb.com/1/upload?key=1d88a70f2899ea43e3ea29a52cfadddb",
+                    formData
                 )
-                .then((response) => {
-                    console.log(response);
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                          toast.addEventListener('mouseenter', Swal.stopTimer)
-                          toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                      })
-                      
-                      Toast.fire({
-                        icon: 'success',
-                        iconColor:"#FF673D",
-                        title: 'Profile updated successfully'
-                      })
-                    getDataProfile()
+                .then((res) => {
+                    const data = {
+                        ...DataProfileUpdate,
+                        image: res.data.data.url,
+                    };
+                    axios
+                        .patch(
+                            `${
+                                process.env.REACT_APP_URL
+                            }/User/${localStorage.getItem("_id")}`,
+                            data
+                        )
+                        .then((response) => {
+                            console.log(response);
+                            setClicked(false);
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener(
+                                        "mouseenter",
+                                        Swal.stopTimer
+                                    );
+                                    toast.addEventListener(
+                                        "mouseleave",
+                                        Swal.resumeTimer
+                                    );
+                                },
+                            });
+
+                            Toast.fire({
+                                icon: "success",
+                                iconColor: "#FF673D",
+                                title: "Profile updated successfully",
+                            });
+                            getDataProfile();
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
                 })
                 .catch((err) => {
                     console.log(err);
                 });
+        } else {
+            axios
+                .patch(
+                    `${process.env.REACT_APP_URL}/User/${localStorage.getItem(
+                        "_id"
+                    )}`,
+                    DataProfileUpdate
+                )
+                .then((response) => {
+                    console.log(response);
+                    setClicked(false);
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
 
-        }).catch((err) => {
-            console.log(err)
-        })
+                        didOpen: (toast) => {
+                            toast.addEventListener(
+                                "mouseenter",
+                                Swal.stopTimer
+                            );
+                            toast.addEventListener(
+                                "mouseleave",
+                                Swal.resumeTimer
+                            );
+                        },
+                    });
+
+                    Toast.fire({
+                        icon: "success",
+                        iconColor: "#FF673D",
+                        title: "Profile updated successfully",
+                    });
+                    getDataProfile();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
     };
 
     const getDataPost = () => {
@@ -180,33 +238,36 @@ function Profile() {
         });
     };
 
-
     const submitPost = () => {
         const formdata = new FormData();
         formdata.append("image", image);
-        axios.post("https://api.imgbb.com/1/upload?key=1d88a70f2899ea43e3ea29a52cfadddb", formdata).then(res => {
-            const data = addPost
-            console.log(res)
-            data.image = res.data.data.image.url
+        axios
+            .post(
+                "https://api.imgbb.com/1/upload?key=1d88a70f2899ea43e3ea29a52cfadddb",
+                formdata
+            )
+            .then((res) => {
+                const data = addPost;
+                console.log(res);
+                data.image = res.data.data.image.url;
 
-            axios
-                .post(`${process.env.REACT_APP_URL}/post/`, data)
-                .then((response) => {
-                    console.log(response);
-                    ShowForm()
-                    getDataPost()
-
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        }
-        ).catch(err => { console.log(err) })
-
+                axios
+                    .post(`${process.env.REACT_APP_URL}/post/`, data)
+                    .then((response) => {
+                        console.log(response);
+                        ShowForm();
+                        getDataPost();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
-    console.log(addPost)
 
-    const [EditDataPost, setEditDataPost] = useState()
+    const [EditDataPost, setEditDataPost] = useState();
 
     const handelEditPost = (e) => {
         const value = e.target.value;
@@ -216,52 +277,101 @@ function Profile() {
         });
     };
 
-
-    console.log(EditDataPost)
     const submitEditPost = () => {
+        if(imageUpdate) {
         const formdata = new FormData();
         formdata.append("image", imageUpdate);
-        axios.post("https://api.imgbb.com/1/upload?key=1d88a70f2899ea43e3ea29a52cfadddb", formdata).then((res) => {
-            console.log(res)
-            const data = { ...EditDataPost, image: res.data.data.url }
+        axios
+            .post(
+                "https://api.imgbb.com/1/upload?key=1d88a70f2899ea43e3ea29a52cfadddb",
+                formdata
+            )
+            .then((res) => {
+                console.log(res);
+                const data = { ...EditDataPost, image: res.data.data.url };
 
+                axios
+                    .patch(
+                        `${process.env.REACT_APP_URL}/post/${IdUpdate}`,
+                        data
+                    )
+                    .then((response) => {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener(
+                                    "mouseenter",
+                                    Swal.stopTimer
+                                );
+                                toast.addEventListener(
+                                    "mouseleave",
+                                    Swal.resumeTimer
+                                );
+                            },
+                        });
+
+                        Toast.fire({
+                            icon: "success",
+                            iconColor: "#FF673D",
+                            title: "Post updated successfully",
+                        });
+                        getDataPost();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        }else{
             axios
-                .patch(`${process.env.REACT_APP_URL}/post/${IdUpdate}`, data)
-                .then((response) => {
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                          toast.addEventListener('mouseenter', Swal.stopTimer)
-                          toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                      })
-                      
-                      Toast.fire({
-                        icon: 'success',
-                        iconColor:"#FF673D",
-                        title: 'Post updated successfully'
-                      })
-                    getDataPost()
-                })
-                .catch((err) => {
-                    console.log(err);
+            .patch(
+                `${process.env.REACT_APP_URL}/post/${IdUpdate}`,
+                EditDataPost
+            )
+            .then((response) => {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener(
+                            "mouseenter",
+                            Swal.stopTimer
+                        );
+                        toast.addEventListener(
+                            "mouseleave",
+                            Swal.resumeTimer
+                        );
+                    },
                 });
-        }).catch((err) => {
-            console.log(err)
-        })
 
+                Toast.fire({
+                    icon: "success",
+                    iconColor: "#FF673D",
+                    title: "Post updated successfully",
+                });
+                getDataPost();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        }
     };
 
-    const [ShowPopUpEmail, setPopUpEmail] = useState(false)
+    const [ShowPopUpEmail, setPopUpEmail] = useState(false);
 
     const [dataSecurity, setDataSecurity] = useState({
         email: "",
-        password: ""
-    })
+        password: "",
+    });
 
     const handelEditEmail = (e) => {
         const value = e.target.value;
@@ -270,48 +380,51 @@ function Profile() {
             [e.target.name]: value,
         });
     };
-    const [messageEmail, setMessageEmail] = useState()
+    const [messageEmail, setMessageEmail] = useState();
     const submitEditemail = () => {
-
-        const ID = localStorage.getItem('_id')
-        if (!dataSecurity.email || !dataSecurity.password){
+        const ID = localStorage.getItem("_id");
+        if (!dataSecurity.email || !dataSecurity.password) {
             Swal.fire({
-                title: ' Please enter correct email and password',
-                icon:'warning',
-                confirmButtonColor :"#FCDC5B" , 
+                title: " Please enter correct email and password",
+                icon: "warning",
+                confirmButtonColor: "#FCDC5B",
                 showClass: {
-                  popup: 'animate__animated animate__fadeInDown'
+                    popup: "animate__animated animate__fadeInDown",
                 },
                 hideClass: {
-                  popup: 'animate__animated animate__fadeOutUp'
-                }
-              })
-              
-        }else{
-
-        axios
-            .patch(`${process.env.REACT_APP_URL}/User/${ID}`, dataSecurity)
-            .then((response) => {
-                console.log(response);
-                setMessageEmail(response.data.message)
-            })
-            .catch((err) => {
-                console.log(err);
+                    popup: "animate__animated animate__fadeOutUp",
+                },
             });
+        } else {
+            axios
+                .patch(`${process.env.REACT_APP_URL}/User/${ID}`, dataSecurity)
+                .then((response) => {
+                    console.log(response);
+                    setMessageEmail(response.data.message);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         }
     };
-    console.log(dataSecurity)
-
 
     return (
         <>
-
-            <div className="Shape-button">
-            </div>
+            <div className="Shape-button"></div>
             <div className="profile-container">
-
                 {!DataProfile ? (
-                    <div style={{height:"100vh" , width :"100%" , display:'flex' , justifyContent:'center' , alignItems :'center'}}> <MiniLoder/></div>
+                    <div
+                        style={{
+                            height: "100vh",
+                            width: "100%",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                    >
+                        {" "}
+                        <MiniLoder />
+                    </div>
                 ) : (
                     <div className="profile">
                         <div className="flex-profile">
@@ -329,7 +442,6 @@ function Profile() {
                             </div>
                             <div className="personal-info">
                                 <div className="profile-title_heading">
-
                                     <h2>
                                         {isCliked === false ? (
                                             `${DataProfile[0].first_name} ${DataProfile[0].last_name}`
@@ -339,10 +451,13 @@ function Profile() {
                                                 <input
                                                     type="text"
                                                     defaultValue={
-                                                        DataProfile[0].first_name
+                                                        DataProfile[0]
+                                                            .first_name
                                                     }
                                                     name="first_name"
-                                                    onChange={handelChageDataUpdate}
+                                                    onChange={
+                                                        handelChageDataUpdate
+                                                    }
                                                 />{" "}
                                                 <input
                                                     type="tex"
@@ -350,14 +465,30 @@ function Profile() {
                                                         DataProfile[0].last_name
                                                     }
                                                     name="last_name"
-                                                    onChange={handelChageDataUpdate}
+                                                    onChange={
+                                                        handelChageDataUpdate
+                                                    }
                                                 />{" "}
                                             </>
                                         )}
                                     </h2>{" "}
-                                    <button onClick={isclick}>
-                                        <GrEdit />
-                                    </button>
+                                    {!isCliked ? (
+                                        <button
+                                            onClick={isclick}
+                                            className="edit-button"
+                                        >
+                                            <GrEdit />
+                                        </button>
+                                    ) : (
+                                        <div >
+                                        <button
+                                            onClick={SubmitEditProfile}
+                                        >
+                                            <GrSave />
+                                        </button>
+                                        <span className="cancel-edit" onClick={()=>{setClicked(!isCliked)}}><button> X</button> </span>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="each-info">
                                     <p className="Class-title">
@@ -376,7 +507,9 @@ function Profile() {
                                         )}
                                     </p>
                                     <p className="description-profile">
-                                        <span>Description about yourself : </span>
+                                        <span>
+                                            Description about yourself :{" "}
+                                        </span>
                                         {isCliked === false ? (
                                             DataProfile[0].description
                                         ) : (
@@ -397,7 +530,9 @@ function Profile() {
                                         ) : (
                                             <input
                                                 type="tex"
-                                                defaultValue={DataProfile[0].languages}
+                                                defaultValue={
+                                                    DataProfile[0].languages
+                                                }
                                                 name="languages"
                                                 onChange={handelChageDataUpdate}
                                             />
@@ -410,7 +545,9 @@ function Profile() {
                                         ) : (
                                             <input
                                                 type="tex"
-                                                defaultValue={DataProfile[0].location}
+                                                defaultValue={
+                                                    DataProfile[0].location
+                                                }
                                                 name="location"
                                                 onChange={handelChageDataUpdate}
                                             />
@@ -440,21 +577,29 @@ function Profile() {
                                                 name="image"
                                                 onChange={(e) => {
                                                     setImageUpdate(
-                                                        e.target.files[0],
+                                                        e.target.files[0]
                                                     );
                                                 }}
                                             />{" "}
-                                            <button className="submit-edit-profile" onClick={SubmitEditProfile}>
-                                                {" "}
-                                                Edit{" "}
-                                            </button>
                                         </p>
                                     )}
                                 </div>
                             </div>
                         </div>
-                        <div style={{ display: "flex", flexDirection: "column", gap: '13px' }}>
-                            <span style={{ borderBottom: "1px solid black" }} onClick={() => setPopUpEmail(true)}> change Password</span>
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "13px",
+                            }}
+                        >
+                            <span
+                                style={{ borderBottom: "1px solid black" }}
+                                onClick={() => setPopUpEmail(true)}
+                            >
+                                {" "}
+                                change Password
+                            </span>
                             {/* <span style={{borderBottom : "1px solid black"}}
                             onClick={()=>{
                                 const ID = localStorage.getItem('_id')
@@ -464,14 +609,22 @@ function Profile() {
                                 })
                             }}
                             > Delete your account </span> */}
-                            <button style={{borderRadius:"0" ,borderTop:"transparent" ,borderRight:"transparent", borderLeft:"transparent",borderBottom:"1px solid FF673D"}}
-                            onClick={()=>clearLocalStorage()}>
-                                        Logout
+                            <button
+                                style={{
+                                    borderRadius: "0",
+                                    borderTop: "transparent",
+                                    borderRight: "transparent",
+                                    borderLeft: "transparent",
+                                    borderBottom: "1px solid FF673D",
+                                }}
+                                onClick={() => clearLocalStorage()}
+                            >
+                                Logout
                             </button>
                         </div>
                         <div className="add_new_post">
                             <h2> Your post</h2>
-                            <button  onClick={ShowForm}>
+                            <button onClick={ShowForm}>
                                 <span>+ </span>Add post
                             </button>
                         </div>
@@ -479,26 +632,28 @@ function Profile() {
                             {!dataPost
                                 ? "wait !!"
                                 : dataPost.map((ele) => {
-                                    return (
-                                        <PostCard
-                                            key={dataPost.indexOf(ele)}
-                                            _id={ele._id}
-                                            title={ele.title}
-                                            description={ele.description}
-                                            location={ele.location}
-                                            start_date_end_date={
-                                                ele.availble_week
-                                            }
-                                            price={ele.price}
-                                            image={ele.image}
-                                            showEditForm={setEditPost}
-                                            IdOfPost={setIdUpdate}
-                                            setDataUpdateById={setDataUpdateById}
-                                            getPosts={getDataPost}
-                                            setEditDataPost={setEditDataPost}
-                                        />
-                                    );
-                                })}
+                                      return (
+                                          <PostCard
+                                              key={dataPost.indexOf(ele)}
+                                              _id={ele._id}
+                                              title={ele.title}
+                                              description={ele.description}
+                                              location={ele.location}
+                                              start_date_end_date={
+                                                  ele.availble_week
+                                              }
+                                              price={ele.price}
+                                              image={ele.image}
+                                              showEditForm={setEditPost}
+                                              IdOfPost={setIdUpdate}
+                                              setDataUpdateById={
+                                                  setDataUpdateById
+                                              }
+                                              getPosts={getDataPost}
+                                              setEditDataPost={setEditDataPost}
+                                          />
+                                      );
+                                  })}
                         </div>
                         {ShowFormPost && (
                             <div className="Post-PopUp">
@@ -550,9 +705,7 @@ function Profile() {
                                             name="image"
                                             type="file"
                                             onChange={(e) => {
-                                                setImage(
-                                                    e.target.files[0],
-                                                );
+                                                setImage(e.target.files[0]);
                                             }}
                                         />
                                         <button
@@ -565,12 +718,18 @@ function Profile() {
                                 </section>
                             </div>
                         )}
-                        {ShowEditPost &&
+                        {ShowEditPost && (
                             <div className="Post-PopUp">
                                 <section className="section_form">
                                     <div className="action-post">
                                         <h2>Edit post</h2>
-                                        <button onClick={() => { setEditPost(!ShowEditPost) }}>X</button>
+                                        <button
+                                            onClick={() => {
+                                                setEditPost(!ShowEditPost);
+                                            }}
+                                        >
+                                            X
+                                        </button>
                                     </div>
 
                                     <div
@@ -590,7 +749,9 @@ function Profile() {
                                             type="text"
                                             required=""
                                             placeholder="Description"
-                                            defaultValue={DataUpdateById.description}
+                                            defaultValue={
+                                                DataUpdateById.description
+                                            }
                                             onChange={handelEditPost}
                                         />
                                         <input
@@ -598,7 +759,9 @@ function Profile() {
                                             type="text"
                                             required=""
                                             placeholder="Location"
-                                            defaultValue={DataUpdateById.location}
+                                            defaultValue={
+                                                DataUpdateById.location
+                                            }
                                             onChange={handelEditPost}
                                         />
                                         <input
@@ -606,7 +769,9 @@ function Profile() {
                                             type="text"
                                             required=""
                                             placeholder="Start date end date"
-                                            defaultValue={DataUpdateById.availble_week}
+                                            defaultValue={
+                                                DataUpdateById.availble_week
+                                            }
                                             onChange={handelEditPost}
                                         />
                                         <input
@@ -620,7 +785,11 @@ function Profile() {
                                         <input
                                             name="image"
                                             type="file"
-                                            onChange={(e) => { setImageUpdate(e.target.files[0]) }}
+                                            onChange={(e) => {
+                                                setImageUpdate(
+                                                    e.target.files[0]
+                                                );
+                                            }}
                                         />
                                         <button
                                             className="button_submit"
@@ -630,42 +799,49 @@ function Profile() {
                                         </button>
                                     </div>
                                 </section>
-                            </div>}
-                        {ShowPopUpEmail && <div className="Post-PopUp">
-                            <section className="section_form">
-                                <div className="action-post">
-                                    <h2>Edit Email Password</h2>
-                                    <button onClick={() => setPopUpEmail(false)} >X</button>
-                                </div>
+                            </div>
+                        )}
+                        {ShowPopUpEmail && (
+                            <div className="Post-PopUp">
+                                <section className="section_form">
+                                    <div className="action-post">
+                                        <h2>Edit Email Password</h2>
+                                        <button
+                                            onClick={() => setPopUpEmail(false)}
+                                        >
+                                            X
+                                        </button>
+                                    </div>
 
-                                <div
-                                    id="consultation-form"
-                                    className="feed-form"
-                                >
-                                    <p>{messageEmail}</p>
-                                    <input
-                                        name="email"
-                                        required=""
-                                        placeholder="Email"
-                                        type="text"
-                                        onClick={handelEditEmail}
-                                    />
-                                    <input
-                                        name="password"
-                                        type="text"
-                                        required=""
-                                        placeholder="Password"
-                                        onClick={handelEditEmail}
-                                    />
-                                    <button
-                                        className="button_submit"
-                                        onClick={submitEditemail}
+                                    <div
+                                        id="consultation-form"
+                                        className="feed-form"
                                     >
-                                        Edit
-                                    </button>
-                                </div>
-                            </section>
-                        </div>}
+                                        <p>{messageEmail}</p>
+                                        <input
+                                            name="email"
+                                            required=""
+                                            placeholder="Email"
+                                            type="text"
+                                            onClick={handelEditEmail}
+                                        />
+                                        <input
+                                            name="password"
+                                            type="text"
+                                            required=""
+                                            placeholder="Password"
+                                            onClick={handelEditEmail}
+                                        />
+                                        <button
+                                            className="button_submit"
+                                            onClick={submitEditemail}
+                                        >
+                                            Edit
+                                        </button>
+                                    </div>
+                                </section>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

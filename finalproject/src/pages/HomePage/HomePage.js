@@ -70,6 +70,7 @@ function HomePage() {
                                         <div className="imageofcarouser">
                                             <img src={`${ele.image}`} alt="" />
                                         </div>
+                                        
                                         <div className="sub-image">
                                             <h3> {`${ele.first_name} ${ele.last_name}`}</h3>
                                             <p>{ele.class_title}</p>
@@ -92,11 +93,14 @@ function HomePage() {
                                     <div className="cards">
                                         <div className="imageofcarouser">
                                             <img src={`${ele.image}`} alt="" />
-                                        </div>
+                                            <div className="hidden-sub">
                                         <div className="sub-image">
                                             <h3>  {ele.title}</h3>
                                             <p> {ele.description}</p>
                                         </div>
+                                        </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             })}

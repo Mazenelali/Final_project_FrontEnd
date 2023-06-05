@@ -3,7 +3,7 @@
     display: flex;
     justify-content: center;
     position: relative;
-    background-image: url(../../image/background.png) ;
+    background-image: url(../../image/Screenshot\ from\ 2023-06-04\ 20-36-07.jpg) ;
     background-repeat: no-repeat;
     background-size: cover; 
     padding-bottom:15rem;
@@ -46,17 +46,13 @@ border : 3px solid var(--red);
     align-items: center;
 }
 .personal-info{
+    position:relative;
     font-size: 30px;
     color: var(--red);
     width: calc(100% - 480px);
     gap: 30px;
 }
-.profile-title_heading{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: calc(100% - 480px);
-}   
+
 .add_new_post{
     margin-top: 30px;
     width: 100%;
@@ -102,12 +98,16 @@ width: 500px;
 }
 .profile h2 {
     font-size: 30px;
+
 }
 .personal-info button{
 padding: 5px;
 width: 30px;
 height: 30px;
 background-color: var(--red);
+position: absolute;
+top:24px;
+right: 4px;
 }
 .post_cards{
     border-top: 1px solid black ;
@@ -151,6 +151,17 @@ background-color: var(--red);
     width: 80px !important ;
     background-color: transparent !important;
 }
+.cancel-edit{
+    position: absolute;
+    top: 0;
+    right: 50px;
+}
+.cancel-edit button{
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 @media screen and (max-width: 450px) {
 
  
@@ -178,6 +189,13 @@ background-color: var(--red);
     }
     .personal-info{
         width: 300px;
+        position: relative;
+    }
+    .edit-button{
+        position: absolute;
+        top: 5px;
+        right:5px
+
     }
     .flex-profile{
         flex-direction: column;
