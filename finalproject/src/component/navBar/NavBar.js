@@ -8,11 +8,10 @@ import { UrlContext } from "../../Layout";
 
 function NavBar() {
     const navigate = useNavigate();
-    const URL = useContext(UrlContext);
 
     const links = [
         {
-            location: "/homePage",
+            location: "/",
             name: "Home",
         },
         {

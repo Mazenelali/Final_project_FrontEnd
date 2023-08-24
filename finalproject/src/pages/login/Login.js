@@ -34,7 +34,7 @@ const submitLogin = ()=>{
 
         setvisible(true)
         setTimeout(() => {
-            navigation("/homepage")
+            navigation("/")
         }, 1600 );
         
     }).catch((err)=>{
@@ -53,7 +53,7 @@ const submitLogin = ()=>{
         <div className="login">
             <div>
             <div className="back-to-home">
-                <button onClick={()=>{navigation('/homepage')}}> < BiArrowBack/> <span> Back to Home </span></button> 
+                <button onClick={()=>{navigation('/')}}> < BiArrowBack/> <span> Back to Home </span></button> 
             </div>
             <div class="triangle-down"></div>
             </div>
