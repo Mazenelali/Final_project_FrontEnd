@@ -96,7 +96,7 @@ function Register() {
             <div>
             </div>
             <div className="back-to-home">
-                <button onClick={()=>{navigation('/homepage')}}> < BiArrowBack/> <span> Back to Home </span></button> 
+                <button onClick={()=>{navigation('/')}}> < BiArrowBack/> <span> Back to Home </span></button> 
             </div>
             <section className="section_form" >
                 <h2>Register</h2>
